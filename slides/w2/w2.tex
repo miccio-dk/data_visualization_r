@@ -1,0 +1,58 @@
+\documentclass{beamer}
+\usepackage{beamerthemesplit} % new 
+\begin{document}
+\title{Data Visualisation for R language} 
+\author{Eren Can Gungor} 
+\date{\today} 
+
+\frame{\titlepage} 
+
+\frame{\frametitle{Table of contents}\tableofcontents} 
+
+
+\section{ R in big data} 
+\frame{\frametitle{Google BigQuery} 
+Google BigQuery works as big data warehouse.  This system uses a familiar  SQL type platform to handle the data and process it as soon as possible
+They have a pay-as-you-go system. That means money depends on how much data you will access and process.
+}
+\subsection{R environment in Google BigQuery }
+\frame{\frametitle{ Linking R with Google BigQuery}
+Using R will be easy in Google Query.  There are already pre-made packages such as "assertthat" and "bigquery". Both packages has been specifically made for implementing R in Google Query. Both Packages has been made by Hadley Wickham.
+}
+\subsection{Setting up R for Google BigQuery Operations}
+\frame{\frametitle{ Setting up R for Google BigQuery Operations}
+ Following steps has been taking to set up the code. Those steps are ;
+ \begin{itemize}
+ \item Introducing R packages for BigQuery
+ \item Installing the R packages
+ \item Loading the R packages
+ \end{itemize}
+}
+\subsection{Setting up Google BigQuery Platform}
+\frame{\frametitle{ Setting up Google  BigQuery Platform}
+Google Query needs membership to sign up. It has similar concept as Github. Following steps needs to be taken for setup ;
+\begin{itemize}
+\item  Creating a Cloud Platform Console
+\item Enabling Billing for your project
+\item Enabling the BigQuery API-- ( Note that it will be automatically enabled for new projects)
+\end{itemize}
+
+For enquiring for a query, 
+\begin{itemize}
+\item Compose a query
+\item Test with any  desired data that you will be interested in.
+\end{itemize}
+
+\section{Example Codes for Setting up and Testing Google BigQuery} 
+\subsection{For linking R with Google BigQuery }
+Following code has to be implement to linking R with Google BigQuery. Following steps will help us to using R shell to access the data from Google BigQuery
+\begin{itemize}
+\item library(bigrquery, lib=loc="/Users/erengungor")
+\item install.packages("assertthat",lib="/Users/erengungor")
+\item  install.packages("bigrquery",lib="/Users/erengungor")
+\item "put your project ID here"
+\item sql select title,contributor username,comment FROM [publicdata samples.wikipedia]
+\item data (query exec("publicdata","samples",sql,billing = project)
+\end {itemize}
+}
+\end{document}
