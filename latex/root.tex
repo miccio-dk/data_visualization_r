@@ -1,0 +1,43 @@
+% document infos
+\documentclass[12pt, a4paper, final]{report}
+\usepackage{booktabs}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+
+\title{Vasualizing mobile phones data from an R envronment}
+\author{Riccardo Miccini  \\
+	Technical University of Denmark - DTU \\
+	}
+\date{\today}
+
+
+% commands
+\newcommand{\fig}[4]{
+  \begin{figure}[H]
+  \centerfloat
+    \includegraphics[width=\textwidth,height=#1,keepaspectratio]{figures/#2}
+    \caption{#3}
+    \label{fig:#4}
+  \end{figure}
+}
+
+
+% here it starts!
+\begin{document}
+
+\maketitle
+
+\include{abstract}
+
+\tableofcontents
+
+\include{intro}
+
+\include{analysis}
+
+\include{design}
+
+\include{end}
+
+\end{document}
