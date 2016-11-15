@@ -1,6 +1,7 @@
 % document infos
 \documentclass[12pt, a4paper, final]{report}
 \usepackage{booktabs}
+\usepackage[table, dvipsnames]{xcolor}
 \usepackage{amssymb}
 \usepackage{hyperref}
 
@@ -20,6 +21,15 @@
     \caption{#3}
     \label{fig:#4}
   \end{figure}
+}
+
+
+% styling
+\hypersetup{
+    colorlinks,
+    linkcolor={Black},
+    citecolor={Black},
+    urlcolor={Black}
 }
 
 
