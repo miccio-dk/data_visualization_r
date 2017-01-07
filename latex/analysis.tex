@@ -2,6 +2,7 @@
 The following sections aim to elaborate on the Problem formulation and create a more solid base to use as a guideline and template during the actual development.
 This analysis does not aspire to be exhaustive, but rather satisfactory in the level of detail required to establish the project.
 
+
 \section{Milestone plan}
 Here is the project milestone plan as formulated during the initial phases of the project.
 This version of the plan lists a series of achievements deemed necessary to accomplish the major functionalities.
@@ -36,9 +37,62 @@ Each task depends from its sub-tasks and --- more indirectly --- on the previous
 	\item Compiling necessary documentation
 \end{itemize}
 
+
 \section{Requirements}
+The \emph{software requirements specification} is the formal description of the system to be developed, thoroughly pointing out what the product is --- and is not --- expected to do.
+It also helps assessing the extent of the endeavor in terms of workload, costs, and other resources.
+The requirements are commonly laid out in agreement with the client, and provide the basis upon which the product or project is evaluated.
+Following the \emph{Unified Software Development Process} --- upon which this analysis is loosely based --- the requirements can be classified in \emph{functional} and \emph{non-functional}.
+
+As far as this project is concerned, the supervisors have not set any particular requirements apart from those implied in the project name and problem formulation.
+The list of requirements is therefore mostly based on former knowledge, common sense and best practices within the industry.
+
+
+\subsection{Functional requirements}\label{subsec:req_func}
+This section defines specific behaviors or functionalities, and is the basis for the tests.
+Requirements introduced by the modal verb \emph{shall} indicate mandatory conditions, whilst those introduced by the modal verb \emph{may} indicate optional features.
 % data have to be uploaded on Google Sheets
 % visualization has to be done in R
+
+\begin{table}[H]
+\centerfloat
+\begin{tabular}{@{} m{6em} >{\small}l @{}}
+    \toprule
+    ID      & \normalfont{Description} \\
+    \midrule
+    SRS.F.1    & blabla \\
+    SRS.F.2    & blabla \\
+    SRS.F.3    & blabla \\
+    SRS.F.4    & blabla \\
+    SRS.F.5    & blabla \\
+    SRS.F.6    & blabla \\
+    \bottomrule
+\end{tabular}
+\caption{Software requirements specification: functional requirements}\label{tab:srs_fun}
+\end{table}
+
+
+\subsection{Non functional requirements}\label{subsec:req_nf}
+This section specifies desired characteristics and qualities of the system.
+
+\begin{table}[H]
+\centerfloat
+\begin{tabular}{@{} m{6em} >{\small}l @{}}
+    \toprule
+    ID      & \normalfont{Description} \\
+    \midrule
+    SRS.NF.1    & blabla\\
+    SRS.NF.2    & blabla \\
+    SRS.NF.3    & blabla \\
+    SRS.NF.4    & All source code shall follow a consistent format style \\
+    SRS.NF.5    & All source code shall be properly documented \\
+    SRS.NF.6    & All source code shall be trivially buildable and executable on other platforms \\
+    SRS.NF.7    & The released documentation shall be written in English \\
+    \bottomrule
+\end{tabular}
+\caption{Software requirements specification: non-functional requirements}\label{tab:srs_nfun}
+\end{table}
+
 
 \section{Tools}
 This section will cover various software tools that have been employed during the course of the project.
@@ -46,10 +100,32 @@ These include development tool and software components or libraries used by the 
 
 
 \subsection{Android Studio}
+Android Studio is the official IDE (integrated development environment) for native Android development.
+It is distributed freely by Google for Windows, Mac OS X and Linux platforms, and it is based on emph{JetBrains' IntelliJ IDEA}, a proprietary IDE for Java.
+It replaced emph{Eclipse Android Development Tools} as Google's primary IDE for Android application development.
+
+The IDE provides a series of Android-specific tools and features.
+The most notable ones are:
+
+\begin{itemize}
+	\item Code editor with intelligent completion, linter, and refactoring system
+	\item Integrated debugger and emulator based on virtual machines
+	\item Graphical layout editor and wizards for code generation of UIs and other common software components
+\end{itemize}
+
+% add screenshot
+
 
 \subsection{RStudio}
+RStudio is a free and open-source IDE for R, a programming language for statistical computing.
+Several editions of the software exists: a emph{Desktop} one, available on Windows, OS X, and Linux, and a emph{Server} and emph{ServerPro} one, with allows access through web browser from several terminals.
+
+The software comprises a text editor with code completion and syntax highlighting, an interactive command interpreter with built-in debug, command history, and data viewer, as well as a package manager.
+
 
 \subsection{R packages}
+
+
 
 \subsection{Other tools}
 %git, github, atom
