@@ -3,6 +3,11 @@
 \usepackage{booktabs}
 \usepackage[table, dvipsnames]{xcolor}
 \usepackage{amssymb}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{caption}
 \usepackage{hyperref}
 
 
@@ -14,6 +19,16 @@
 
 
 % commands
+\newcommand{\code}[1]{\texttt{#1}}
+
+\makeatletter
+\newcommand*{\centerfloat}{%
+  \parindent \z@
+  \leftskip \z@ \@plus 1fil \@minus \textwidth
+  \rightskip\leftskip
+  \parfillskip \z@skip}
+\makeatother
+
 \newcommand{\fig}[4]{
   \begin{figure}[H]
   \centerfloat
@@ -22,6 +37,7 @@
     \label{fig:#4}
   \end{figure}
 }
+
 
 
 % styling

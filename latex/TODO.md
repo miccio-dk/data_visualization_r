@@ -17,13 +17,14 @@
 - [x] Analysis
   - [x] Milestone plan
   - [x] Requirements
-    - [ ] Functional requirements
-    - [ ] Non functional requirements
+    - [x] Functional requirements
+    - [x] Non functional requirements
   - [x] Tools
     - [x] Android Studio
-    - [ ] RStudio
-    - [ ] R packages
-    - [ ] Other tools
+    - [x] RStudio
+    - [x] R packages
+	  - [ ] Packages
+    - [x] Other tools
 - [ ] Design
   - [ ] Infrastructure
   - [ ] Android
