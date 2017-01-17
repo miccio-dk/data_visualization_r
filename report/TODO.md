@@ -6,6 +6,7 @@
 - [ ] RStudio
 - [ ] iOS
 - [ ] Report
+- [ ] Poster (A0)
 
 
 ## Report
