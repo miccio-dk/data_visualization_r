@@ -3,8 +3,15 @@
 ## Project
 
 - [ ] Android Studio
+  - [x] Implement normal
+  - [ ] Implement service
+  - [ ] Fix bugs
 - [ ] RStudio
+  - [x] Implement
+  - [ ] Fix bugs
 - [ ] iOS
+  - [ ] Implement
+  - [ ] Fix bugs
 - [ ] Report
 - [ ] Poster (A0)
 
@@ -24,7 +31,10 @@
     - [x] Android Studio
     - [x] RStudio
     - [x] R packages
-	  - [ ] Packages
+	  - [x] shiny
+	  - [x] leaflet
+	  - [x] googlesheets
+	  - [x] dplyr
     - [x] Other tools
 - [ ] Design
   - [ ] Infrastructure

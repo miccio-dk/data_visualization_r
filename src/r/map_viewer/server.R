@@ -115,6 +115,7 @@ shinyServer(function(input, output, session) {
         filter(date_time == max(date_time)) %>% 
         arrange(device_id)
       
+      # update map view obj with graphic elements
       leafletProxy("map") %>%
         clearShapes() %>%
         clearMarkers() %>%
