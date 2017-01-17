@@ -1,4 +1,4 @@
-## Map Viewer for Mobile Sensor Data Visulization in R
+## Map Viewer for Mobile Sensor Data Visualization in R
 ## Riccardo Miccini - 2017
 ## R shiny app - user interface
 
@@ -11,6 +11,8 @@ library(shinythemes)
 # TODO 
 # - fix zoom bug
 # - mention UI reqs in report SRS
+# - add heatmap of user positions
+# - add speed of device over time
 
 shinyUI(fluidPage(
   # apply custom theme
@@ -45,7 +47,8 @@ shinyUI(fluidPage(
 
     mainPanel(
       # map object
-      leafletOutput("map")
+      leafletOutput("map"),
+      plotOutput("plot")
     )
   )
 ))

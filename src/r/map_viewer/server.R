@@ -1,4 +1,4 @@
-## Map Viewer for Mobile Sensor Data Visulization in R
+## Map Viewer for Mobile Sensor Data Visualization in R
 ## Riccardo Miccini - 2017
 ## R shiny app - server side
 
@@ -50,6 +50,11 @@ shinyServer(function(input, output, session) {
       addProviderTiles(
         "OpenStreetMap.Mapnik", 
         options = providerTileOptions(noWrap = TRUE))
+  })
+  
+  # generate plot obj
+  output$plot <- renderPlot({
+    
   })
   
   

@@ -1,0 +1,110 @@
+\documentclass[final]{beamer}
+\usepackage{beamerposter}
+\usepackage{booktabs}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{caption}
+
+% lorem ipsum packages
+\usepackage[english]{babel}
+\usepackage{blindtext}
+
+
+% styling commands
+\usetheme{confposter}
+% \setbeamercolor{}{}
+
+
+% document metadata
+\title{Visualizing Mobile Phone Sensors Data in an R Environment}
+\author{Riccardo Miccini}
+\institute{Technical University of Denmark - DTU}
+\date{\today}
+
+
+% begin document - single frame, multi-column layout
+\begin{document}
+\begin{frame}[t]
+\begin{columns}[t]
+
+	% column 1 - left
+	\begin{column}{25cm}
+		% objectives
+		\begin{alertblock}{Objectives}
+			\blindtext
+			\blindlist{itemize}[3]
+		\end{alertblock}
+
+		% intro
+		\begin{block}{Introduction}
+			\blindtext
+		\end{block}
+
+		% reqs
+		\begin{block}{Requirements}
+			\blindtext
+			\blindlist{itemize}[5]
+		\end{block}
+	\end{column}
+
+	% column 2 - center
+	\begin{column}{60cm}
+		\begin{columns}[t, totalwidth=60cm]
+			% column 2.1 - centerleft
+			\begin{column}{25cm}\vspace{-.6in}
+				% tools
+				\begin{block}{Tools}
+					\blindtext
+					\blindlist{itemize}[4]
+					\blindtext
+				\end{block}
+			\end{column}
+
+			% column 2.2 - centerright
+			\begin{column}{25cm}\vspace{-.6in}
+				% implementation
+				\begin{block}{Implementation}
+					\blindtext
+					\blindtext
+					\blindtext
+				\end{block}
+			\end{column}
+		\end{columns}
+
+		% main figure section
+		\begin{figure}
+			\includegraphics[width=50cm]{}
+			\caption{Figure caption}
+		\end{figure}
+	\end{column}
+
+	% column 3 - right
+	\begin{column}{25cm}
+		% testing
+		\begin{block}{Verification}
+			\blindtext
+			\blindtext
+		\end{block}
+
+		% conclusion
+		\begin{block}{Results and Conclusion}
+			\blindtext
+		\end{block}
+
+		% refs
+		\begin{block}{References}
+			\blindlist{itemize}[5]
+		\end{block}
+
+		% contacts
+		\begin{block}{Conctact Information}
+			\blindlist{description}[3]
+		\end{block}
+	\end{column}
+
+\end{columns}
+\end{frame}
+\end{document}
