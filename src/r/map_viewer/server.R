@@ -105,7 +105,7 @@ shinyServer(function(input, output, session) {
           data = sl_paths,
           stroke = TRUE,
           weight = 2.5,
-#          color = ~col_palette("a"),
+#          color = ~col_palette(sl_paths@lines[[1]]@Lines),
           opacity = 0.35) %>%
         addCircleMarkers(
           data = markers, lat = ~lat, lng = ~lng, group = ~device_id,

@@ -7,7 +7,13 @@ library(shiny)
 library(leaflet)
 
 
-# TODO apply theme http://bootswatch.com/paper/bootstrap.min.css
+# TODO 
+# - apply theme http://bootswatch.com/paper/bootstrap.min.css
+# - show legend on map
+# - implement reset filter button
+# - implement clear remote data button
+# - mention UI reqs in report SRS
+# - fix line color bug
 
 shinyUI(fluidPage(
   # title
