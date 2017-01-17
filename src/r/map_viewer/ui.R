@@ -5,17 +5,17 @@
 # load necessary packages
 library(shiny)
 library(leaflet)
+library(shinythemes)
 
 
 # TODO 
-# - apply theme http://bootswatch.com/paper/bootstrap.min.css
-# - show legend on map
-# - implement reset filter button
-# - implement clear remote data button
+# - fix zoom bug
 # - mention UI reqs in report SRS
-# - fix line color bug
 
 shinyUI(fluidPage(
+  # apply custom theme
+  theme = shinytheme("paper"),
+  
   # title
   titlePanel("Mobile Sensor Data Visulization in R"),
 
@@ -29,12 +29,12 @@ shinyUI(fluidPage(
                      end = Sys.Date()),
       selectInput("device_ids", label = h5("Device IDs"), multiple = TRUE,
                   choices = list("Wait..." = "wait"), selected = "wait"),
-      actionButton("reset_filter", label = "Reset filters"),
+      actionButton("resetFilter", label = "Reset filters"),
       
       # export currently plotted data or all data
       h3("Export data"),
-      downloadButton("exportDataCurr", label = "Export shown data"),
-      downloadButton("exportDataAll", label = "Export all data"),
+      downloadButton("exportDataCurr", label = "Current data"),
+      downloadButton("exportDataAll", label = "All"),
       p(),
       
       # clear remote data
