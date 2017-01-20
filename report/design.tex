@@ -1,13 +1,103 @@
 \chapter{Design}
+This chapter focuses on the design and implementation of the proposed solution into a viable product.
+It will attempt to thoroughly describe the overall design of the system, as well as the implementation details of its building blocks.
+Adequate considerations about the development process will be drawn in the conclusion section.
+
+For the sake of convenience, the proposed system can be divided into two conceptual categories: the part that shall be deployed at the end users' premises (the apps running on mobile phones) and the one that shall be under direct control of the data analyst.
+The latter further comprises a cloud-based infrastructure, and an R application, which can be executed on any host machine, or hosted on a server.
 
 
 \section{Infrastructure}
+The devised infrastructure relies on a cloud-based storage solution, provided by \emph{Google Sheets}.
+This well-known platform can be easily accessed through its web interface, which mimics the appearance and functionalities of most modern spreadsheet software such as \emph{Microsoft Excel}, and through its extensive API (application programming interface), which allows third-party applications to read and update the content of a given spreadsheet.
 
+The sensors data, consisting in GPS positioning information (as described in the Software Requirements Specifications), are collected collected by the tracking apps in the end users' mobile phones, and submitted to a specific spreadsheet document, which is otherwise private.
+New data is continuously added to this file, with new entries being appended below existing ones.
+
+The recorded data can then be accessed through a web application written in R.
+The application periodically queries the document in order to update the information shown.
+Is can be executed from the data analyst computer, or hosted on a cloud platform.
+
+\fig{5cm}{nwd_network.png}{Overall system infrastructure: network diagram}{nwd_network}
+
+The figure above expresses the relations between the aforementioned elements of the infrastructure.
+The blue hexagons represents cloud-based services.
+The dotted line suggests a possible hosting solution, based on \emph{ShinyApps.io}.
 
 \section{iOS}
+
 
 
 \section{Android}
 
 
+\subsection{Project structure}
+
+
+\subsection{Interface}
+
+
+\subsection{User Authentication}
+
+
+\subsection{Location tracking}
+
+
+\subsection{Data submission}
+
+
+
 \section{R}
+The R application is the part of the solution that is supposed to run on-premises.
+It takes care of gathering the data from the spreadsheet document and generating a web interface with a map and chart for visualizing said data.
+The software is built around the \emph{Shiny} framework, which provides functionalities for developing web applications in R.
+
+
+\subsection{R \emph{Shiny} architecture}
+The features that allows Shiny to provide responsive feedback lies in the update policy of certain code expression and interface elements, which can be invalidated by other expressions or user interaction.
+Expressions that are invalidated will be immediately reevaluated or redrawn.
+
+% reactive plot http://shiny.rstudio.com/articles/reactivity-overview.html
+
+\fig{7cm}{rd_shiny.png}{Shiny Application: reactivity diagram}{rd_shiny}
+
+The picture above shows the relations between the different blocks of code.
+If two elements are connected, whenever the origin changes changes, the destination is notified that it needs to re-execute.
+
+
+
+\subsection{Interface}
+The UI of the web application is written in R in a declarative paradigm.
+Each graphic element is defined within its hierarchical parent, along with a set of options.
+The R code returns a block of \code{html} elements that implement the UI.
+Shiny uses the \code{bootstrap} front-end framework to allow for responsive pages, and comes with a series of built-in widgets for user interaction.
+
+The page is based on the the \code{sidebarLayout}, which consists in a main area, used to visualize a map with the end users' positions and a plot of recorded speed and altitude, and a side bar, with filtering and data export options.
+
+\fig{7cm}{ss_ui.png}{User Interface: final layout}{ss_ui}
+
+The figure above shows an example session, with all the previously described controls.
+The following UI widgets have been employed:
+
+\begin{description}
+	\item[\code{checkboxInput()}] shows a check-box; a default state can be set
+	\item[\code{dateRangeInput()}] shows two dates selectors, with integrated calendar picker; maximum as well as default start and end dates can be set
+	\item[\code{selectInput()}] shows a combo-box with optional multiple selection support
+	\item[\code{actionButton()}] shows a simple button
+	\item[\code{downloadButton()}] shows a download button
+\end{description}
+
+Each widgets takes an ID and a label as mandatory parameters.
+Commonly used formatting tags such as \code{hr}, \code{p}, and \code{h} headings are also available through Shiny.
+
+
+\subsection{Data collection}
+
+
+\subsection{Data filtering}
+
+
+\subsection{Map visualization}
+
+
+\subsection{Plot visualization}

@@ -4,10 +4,11 @@
 
 # load necessary packages
 library(shiny)
-library(leaflet)
-library(googlesheets)
-library(sp)
 library(dplyr)
+library(sp)
+library(googlesheets)
+library(leaflet)
+library(plotly)
 
 
 shinyServer(function(input, output, session) {
@@ -19,11 +20,15 @@ shinyServer(function(input, output, session) {
   # reactive expression for the raw data
   allData <- reactive({
     # reload every 2 seconds
-    invalidateLater(5000, session)
+    if(input$realtime) {
+      invalidateLater(5000, session)
+    }
     
     # read data with Google Sheet API
-    data <- gs_read(gsheet_file, ws = gsheet_sheet, range = cell_cols("A:D"), literal = TRUE)
+    data <- gs_read(gsheet_file, ws = gsheet_sheet, range = cell_cols("A:F"), literal = TRUE)
     
+    # add POSIXct date-time column
+    data$date_time_posix <- as.POSIXct(data$date_time, format = "%d/%m/%Y %H:%M:%S")
     return(data)
   })
   
@@ -36,11 +41,24 @@ shinyServer(function(input, output, session) {
       # filter data
       data <- allData() %>%
         filter(device_id %in% input$device_ids) %>%
-        filter(format(as.POSIXct(date_time, format = "%d/%m/%Y"), "%Y-%m-%d") >= min(input$date)) %>%
-        filter(format(as.POSIXct(date_time, format = "%d/%m/%Y"), "%Y-%m-%d") < max(input$date))
+        filter(format(date_time_posix, "%Y-%m-%d") >= min(input$date)) %>%
+        filter(format(date_time_posix, "%Y-%m-%d") < max(input$date))
     }
     
-    return(data)
+    # sort by device id and time
+    data_sorted <- data %>% arrange(device_id, date_time)
+    
+    return(data_sorted)
+  })
+  
+  # reactive expression for a colorblind-safe (up to 4 elements) palette, based on :
+  # http://colorbrewer2.org/#type=qualitative&scheme=Paired&n=5
+  col_palette <- reactive({
+    colorFactor(
+      palette = c('#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99'),
+      domain = filteredData()$device_id,
+      ordered = TRUE
+    )
   })
   
   
@@ -53,8 +71,44 @@ shinyServer(function(input, output, session) {
   })
   
   # generate plot obj
-  output$plot <- renderPlot({
+  output$plot <- renderPlotly({
+    validate(need(length(input$device_ids) == 1, "Select a single device ID to show extra data"))
     
+    plot_ly(filteredData()) %>%
+      add_trace(
+        x = ~date_time_posix,
+        y = ~altitude,
+        yaxis = "y",
+        type = "bar",
+        name = "altitude",
+        hoverinfo = "text",
+        text = ~paste(format(altitude, digits = 3), " m"),
+        marker = list(color = col_palette()(input$device_ids)),
+        opacity = 0.5) %>%
+      add_trace(
+        x = ~date_time_posix,
+        y = ~speed,
+        yaxis = "y2",
+        type = "scatter", mode = "lines",
+        name = "speed",
+        hoverinfo = "text",
+        text = ~paste(format(speed, digits = 2), " m/s"),
+        line = list(color = col_palette()(input$device_ids))) %>%
+      layout(
+        title = "Speed and altitude of selected device",
+        xaxis = list(title = ""),
+        yaxis = list(
+          side = "left", 
+          title = "Altitude (m)", 
+          showgrid = FALSE, 
+          zeroline = FALSE),
+        yaxis2 = list(
+          overlaying = "y", 
+          side = "right", 
+          title = "Speed (m/s)", 
+          showgrid = FALSE, 
+          zeroline = FALSE),
+        hovermode = "closest")
   })
   
   
@@ -84,9 +138,6 @@ shinyServer(function(input, output, session) {
     data_filtered <- filteredData()
     
     if(nrow(data_filtered) > 0) {
-      # sort by device id and time
-      data_sorted <- data_filtered %>% arrange(device_id, date_time)
-      
       # generate unique list of ids
       data_unique_id <- unique(data_sorted$device_id)
       
@@ -106,14 +157,6 @@ shinyServer(function(input, output, session) {
           x = sldf_device_id, 
           row.names = sldf_device_id))
       
-      # create a colorblind-safe (up to 4 elements) palette, based on :
-      # http://colorbrewer2.org/#type=qualitative&scheme=Paired&n=5
-      col_palette <- colorFactor(
-        palette = c('#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99'),
-        domain = data_filtered$device_id,
-        ordered = TRUE
-      )
-      
       # generate markers on users current positions
       markers <- data_filtered %>% 
         group_by(device_id) %>% 
@@ -129,8 +172,8 @@ shinyServer(function(input, output, session) {
           data = sl_paths,
           stroke = TRUE,
           weight = 3,
-          color = ~col_palette(sl_paths$sldf_device_id),
-          opacity = 0.5) %>%
+          color = ~col_palette()(sl_paths$sldf_device_id),
+          opacity = 0.7) %>%
         addCircleMarkers(
           data = markers, lat = ~lat, lng = ~lng, group = ~device_id,
           radius = 6,
@@ -138,11 +181,11 @@ shinyServer(function(input, output, session) {
           weight = 1,
           color = "#fff",
           opacity = 0.9,
-          fillColor = ~col_palette(device_id),
+          fillColor = ~col_palette()(device_id),
           fillOpacity = 0.8) %>%
         addLegend(
           values = data_unique_id,
-          pal = col_palette,
+          pal = col_palette(),
           title = "Device IDs",
           position = "topright", 
           opacity = 1) %>%
@@ -163,7 +206,7 @@ shinyServer(function(input, output, session) {
       selected = "wait")
     updateDateRangeInput(
       session, "date",
-      start = min(format(as.POSIXct(allData()$date_time, format = "%d/%m/%Y"), "%Y-%m-%d")),
+      start = min(allData()$date_time_posix),
       end = max(format(as.POSIXct(allData()$date_time, format = "%d/%m/%Y"), "%Y-%m-%d")))
   })
 

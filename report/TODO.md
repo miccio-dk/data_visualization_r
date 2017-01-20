@@ -14,6 +14,17 @@
   - [ ] Fix bugs
 - [ ] Report
 - [ ] Poster (A0)
+  - [ ] Layout
+  - [ ] Style
+  - [ ] Objectives
+  - [ ] Intro
+  - [ ] Reqs
+  - [ ] Tools
+  - [ ] Implementation
+  - [ ] Testing
+  - [ ] Conclusion
+  - [ ] Refs
+  - [ ] Contacts
 
 
 ## Report
@@ -36,8 +47,8 @@
 	  - [x] googlesheets
 	  - [x] dplyr
     - [x] Other tools
-- [ ] Design
-  - [ ] Infrastructure
+- [x] Design
+  - [x] Infrastructure
   - [ ] Android
   - [ ] iOS
   - [ ] R  
@@ -49,3 +60,11 @@
   - [ ] Future improvements
 - [ ] Bibliography
 - [ ] Appendices
+
+
+## Questions
+
+- iOS section?
+- Types of testing?
+- Is R part complete?
+- Android tracking as service?
