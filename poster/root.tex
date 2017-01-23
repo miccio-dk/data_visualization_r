@@ -9,6 +9,9 @@
 \usepackage{caption}
 \usepackage{fontawesome}
 \usepackage[scale=2]{ccicons}
+\usepackage{hyperref}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{refs.bib}
 
 % lorem ipsum packages
 \usepackage[english]{babel}
@@ -20,7 +23,9 @@
 \usetheme{confposter}
 % \setbeamercolor{}{}
 \usefonttheme{professionalfonts}
-\setbeamerfont{block body}{series=\sffamily}
+\setbeamerfont{block body}{series=\sffamily, size={\fontsize{32}{36}}}
+\addtobeamertemplate{block end}{}{\vspace*{4ex}} % White space under blocks
+\addtobeamertemplate{block alerted end}{}{\vspace*{4ex}} % White space under highlighted (alert) blocks
 
 
 % layout
@@ -45,99 +50,113 @@
 
 % begin document - single frame, multi-column layout
 \begin{document}
-
-\addtobeamertemplate{block end}{}{\vspace*{4ex}} % White space under blocks
-\addtobeamertemplate{block alerted end}{}{\vspace*{4ex}} % White space under highlighted (alert) blocks
-
 \begin{frame}[t]
 \begin{columns}[t]
 
-	% column 1 - left
-	\begin{column}{\onecolwid}
-		% objectives
-		\begin{alertblock}{Objectives}
-			\blindtext
-			\blindlist{itemize}[3]
-		\end{alertblock}
+% column 1 - left
+\begin{column}{\onecolwid}
+	% objectives
+	\begin{alertblock}{Objectives}
+		The aim of the project is the application of methods for visualizing mobile phone (Android, iPhone) sensor measurements in an R environment, using the \emph{Google Cloud} as buffer.
+		The system has to be able to:
+		\begin{itemize}
+			\item Collect GPS positioning data from mobile phones and store them remotely
+			\item Read the content of the spreadsheet from an R environment in real-time, and visualize spatial data on a map and other information on plots
+			\item Allow the user to interact with the data - filtering, zooming, scrolling, exporting\dots
+		\end{itemize}
+	\end{alertblock}
 
-		% intro
-		\begin{block}{\faCommenting \, Introduction}
-			\lipsum[66]
-			\lipsum[75]
-		\end{block}
+	% intro
+	\begin{block}{\faCommenting \, Introduction}
+		The project has been carried out under the supervision of profs. John Aasted S{\o}rensen and Ian Bridgwood, as part of a multidisciplinary project.
 
-		% reqs
-		\begin{block}{\faListUl \, Requirements}
-			\lipsum[75]
-			\blindlist{itemize}[5]
-		\end{block}
-	\end{column}
+		The implemented system is composed of three main elements: a series of end users' mobile devices, a remote host, and a \emph{data analyst} station.
+		The former are equipped with a custom-made application capable of submitting GPS data to a remote \emph{Google Sheet} document, which acts as a database and is accessible through the cloud.
+		The data analyst can then visualize the collected data in real-time, using the provided R scripts and a web browser.
 
-	% column 2 - center
-	\begin{column}{\twocolwid}
-		\begin{columns}[t, totalwidth=\twocolwid]
-			% column 2.1 - centerleft
-			\begin{column}{\onecolwid}\vspace{-.6in}
-				% tools
-				\begin{block}{\faWrench \, Tools}
-					\blindtext
-					\blindlist{itemize}[4]
-					\lipsum[66]
-				\end{block}
-			\end{column}
+		\bigskip
 
-			% column 2.2 - centerright
-			\begin{column}{\onecolwid}\vspace{-.6in}
-				% implementation
-				\begin{block}{\faCode \, Implementation}
-					\blindtext
-					\lipsum[75]
-					\lipsum[66]
-				\end{block}
-			\end{column}
-		\end{columns}
+		\emph{All brands, product names, logos, or other trademarks featured or referred to in this document are the property of their respective holders, and their use does not imply endorsement.}
+	\end{block}
 
-		% main figure section
-		\begin{figure}
-			\includegraphics[width=\twocolwid]{ss_ui.png}
-			% \caption{Figure caption}
-		\end{figure}
-	\end{column}
+	% reqs
+	\begin{block}{\faListUl \, Requirements}
+		Here is a summarization of the \emph{Software Requirements Specification}:
+		\begin{itemize}
+			\item The collected data shall include device ID, coordinates (latitude, longitude), altitude, speed, and timestamp
+			\item The blabla
+			\item blablabla
+		\end{itemize}
+	\end{block}
+\end{column}
 
-	% column 3 - right
-	\begin{column}{\onecolwid}
-		% testing
-		\begin{block}{\faCheckCircle \, Verification}
-			\lipsum[75]
-			\lipsum[66]
-		\end{block}
+% column 2 - center
+\begin{column}{\twocolwid}
+	\begin{columns}[t, totalwidth=\twocolwid]
+		% column 2.1 - centerleft
+		\begin{column}{\onecolwid}\vspace{-.6in}
+			% tools
+			\begin{block}{\faWrench \, Tools}
+				R is an open-source programming language and software environment for statistical computing, data analysis, an visualization.
 
-		% conclusion
-		\begin{block}{\faPieChart \, Results and Conclusion}
-			\blindtext
-		\end{block}
+				\blindlist{itemize}[4]
+				\lipsum[66]
+			\end{block}
+		\end{column}
 
-		% refs
-		\begin{block}{\faPaperclip \, References}
-			\blindlist{itemize}[5]
-			% shiny, leaflet, plotly, dev.android, dev.google
-		\end{block}
+		% column 2.2 - centerright
+		\begin{column}{\onecolwid}\vspace{-.6in}
+			% implementation
+			\begin{block}{\faCode \, Implementation}
+				\blindtext
+				\lipsum[75]
+				\lipsum[66]
+			\end{block}
+		\end{column}
+	\end{columns}
 
-		% contacts
-		\begin{alertblock}{ Conctact Information}
-			\faUser \, Riccardo Miccini \\
-			\faEnvelope \, s137345@student.dtu.dk \\
-			\faGithub \, miccio-dk \\
-			\faLinkedin \, rimiccini
-		\end{alertblock}
+	% main figure section
+	\begin{figure}
+		\includegraphics[width=\twocolwid]{ss_ui.png}
+		% \caption{Figure caption}
+	\end{figure}
 
-		\begin{center}
-			\ccbynd
-		\end{center}
+	% copyright notice
+	\vspace{2cm}
 
-	\end{column}
+	\begin{center}
+		\ccbynd
+	\end{center}
+\end{column}
 
+% column 3 - right
+\begin{column}{\onecolwid}
+	% testing
+	\begin{block}{\faCheckCircle \, Verification}
+		\lipsum[75]
+		\lipsum[66]
+	\end{block}
 
+	% conclusion
+	\begin{block}{\faPieChart \, Results and Conclusion}
+		\blindtext
+	\end{block}
+
+	% refs
+	\begin{block}{\faPaperclip \, References}
+		\nocite{*}
+		\small{\printbibliography}
+	\end{block}
+
+	% contacts
+	\begin{alertblock}{ Conctact Information}
+		\faUser \, Riccardo Miccini \\
+		\faEnvelope \, s137345@student.dtu.dk \\
+		\faGithub \, miccio-dk \\
+		\faLinkedin \, rimiccini
+	\end{alertblock}
+
+\end{column}
 
 \end{columns}
 \end{frame}

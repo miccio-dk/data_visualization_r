@@ -32,11 +32,20 @@ The dotted line suggests a possible hosting solution, based on \emph{ShinyApps.i
 
 
 \subsection{Project structure}
-% structure 
+% structure
 % build system
 % important files
 
 \subsection{Interface}
+The UI of the app is composed of three graphical elements: a text input box for entering a custom time interval in seconds, and start and stop tracking buttons.
+The widgets are arranged using a \code{LinearLayout}.
+Other aspects of the user interface include \emph{toats}, which are small, temporary pop-up messages that appear at each submitted location.
+The figure below shows a screen capture of the app, with one such message.
+
+\fig{9cm}{ss_app.png}{Android App: user interface layout}{ss_app}
+
+A previous version of the app --- not backed by the \code{Service} class --- featured a text box showing information about the latest location acquired.
+
 
 
 \subsection{User Authentication}
@@ -77,7 +86,7 @@ Shiny uses the \code{bootstrap} front-end framework to allow for responsive page
 
 The page is based on the the \code{sidebarLayout}, which consists in a main area, used to visualize a map with the end users' positions and a plot of recorded speed and altitude, and a side bar, with filtering and data export options.
 
-\fig{7cm}{ss_ui.png}{User Interface: final layout}{ss_ui}
+\fig{7cm}{ss_ui.png}{Shiny Application: user interface layout}{ss_ui}
 
 The figure above shows an example session, with all the previously described controls.
 The following UI widgets have been employed:
