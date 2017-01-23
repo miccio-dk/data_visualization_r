@@ -51,7 +51,7 @@
   - [x] Infrastructure
   - [ ] Android
   - [ ] iOS
-  - [ ] R  
+  - [x] R  
 - [ ] Testing
   - [ ] Acceptance tests
 - [ ] Conclusions

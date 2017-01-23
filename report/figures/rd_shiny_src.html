@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.css">
+	<script src="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.min.js"></script>
+	<script>mermaid.initialize({startOnLoad:true});</script>
+	<title>Shiny reactivity diagram</title>
+</head>
+<body>
+<div class="mermaid">
+	graph TD
+		%% inputs
+		rt(fa:fa-check-square Realtime update check-box)
+		date(fa:fa-calendar Date range picker)
+		ids(fa:fa-list Devices combo-box)
+		resetFilter(fa:fa-square-o Reset filters button)
+		exportDataCurr(fa:fa-download Export shown data button)
+		exportDataAll(fa:fa-download Export all data button)
+		clearRemote(fa:fa-square-o Clear remote data button)
+
+		%% outputs
+		map(fa:fa-map Map output)
+		plot(fa:fa-bar-chart Plot output)
+
+		%% reactive elements
+		all[All remote data]
+		fltr[Filtered data]
+		cols[Color palette]
+
+		%% observer events/handlers
+		rst[Reset filters]
+		clr[Clear remote data]
+		dl_all[Download all data]
+		dl_fltr[Download filtered data]
+
+		%% connections
+		all-.->all
+		rt-->all
+
+		date-->fltr
+		all-->fltr
+		ids-->fltr
+
+		fltr-->cols
+
+		ids-->plot
+		fltr-->plot
+		cols-->plot
+
+		all-->ids
+		ids-->ids
+		all-->date
+		ids-->date
+
+		cols-->map
+		fltr-->map
+
+		resetFilter-->rst
+		rst-->ids
+		rst-->date
+
+		clearRemote-->clr
+		exportDataCurr-->dl_fltr
+		dl_fltr-->fltr
+		exportDataAll-->dl_all
+		dl_all-->all
+
+		%% node style
+		classDef inputs fill:#a6cee3,stroke:#1f78b4,stroke-width:2px;
+		class rt,date,ids,resetFilter,exportDataCurr,exportDataAll,clearRemote inputs;
+
+		classDef outputs fill:#b2df8a,stroke:#33a02c,stroke-width:2px;
+		class map,plot outputs;
+
+		classDef reactives fill:#fdbf6f,stroke:#ff7f00,stroke-width:2px;
+		class all,fltr,cols reactives;
+
+		classDef observers fill:#fb9a99,stroke:#e31a1c,stroke-width:2px;
+		class rst,clr,dl_all,dl_fltr observers;
+</div>
+</body>
+</html>

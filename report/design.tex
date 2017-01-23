@@ -32,7 +32,9 @@ The dotted line suggests a possible hosting solution, based on \emph{ShinyApps.i
 
 
 \subsection{Project structure}
-
+% structure 
+% build system
+% important files
 
 \subsection{Interface}
 
@@ -54,16 +56,17 @@ The software is built around the \emph{Shiny} framework, which provides function
 
 
 \subsection{R \emph{Shiny} architecture}
-The features that allows Shiny to provide responsive feedback lies in the update policy of certain code expression and interface elements, which can be invalidated by other expressions or user interaction.
+The features that allows Shiny to provide responsive feedback lies in the update policy of certain code block and interface elements, which can be invalidated by other expressions or user interaction.
 Expressions that are invalidated will be immediately reevaluated or redrawn.
 
 % reactive plot http://shiny.rstudio.com/articles/reactivity-overview.html
-
-\fig{7cm}{rd_shiny.png}{Shiny Application: reactivity diagram}{rd_shiny}
+\fig{9cm}{rd_shiny.png}{Shiny Application: reactivity diagram}{rd_shiny}
 
 The picture above shows the relations between the different blocks of code.
 If two elements are connected, whenever the origin changes changes, the destination is notified that it needs to re-execute.
-
+The dotted line represents a periodic operation.
+The system inputs, outputs, and reactive expressions are denoted by the cyan, green, and orange nodes respectively.
+The red nodes represents observer and reactive events that are triggered by the invalidation of the affected elements.
 
 
 \subsection{Interface}
@@ -80,11 +83,11 @@ The figure above shows an example session, with all the previously described con
 The following UI widgets have been employed:
 
 \begin{description}
-	\item[\code{checkboxInput()}] shows a check-box; a default state can be set
-	\item[\code{dateRangeInput()}] shows two dates selectors, with integrated calendar picker; maximum as well as default start and end dates can be set
-	\item[\code{selectInput()}] shows a combo-box with optional multiple selection support
-	\item[\code{actionButton()}] shows a simple button
-	\item[\code{downloadButton()}] shows a download button
+	\item[\code{checkboxInput()}] check-box with optional default state
+	\item[\code{dateRangeInput()}] dates range selector, with integrated calendar picker; maximum as well as default start and end dates can be set
+	\item[\code{selectInput()}] combo-box with optional multiple selection support
+	\item[\code{actionButton()}] common press-button
+	\item[\code{downloadButton()}] download button
 \end{description}
 
 Each widgets takes an ID and a label as mandatory parameters.
@@ -92,12 +95,43 @@ Commonly used formatting tags such as \code{hr}, \code{p}, and \code{h} headings
 
 
 \subsection{Data collection}
+The sensors data from the users' mobile phones is queried within a reactive expression, which invalidate itself every five seconds.
+This triggers a continuous background update of the data, which is then propagated through all the reactive elements.
+
+The data is accessed using the Google Sheet APIs and the \code{googlesheets} package: a file object is created from the document key, which is then used to read a range of columns.
+The result is stored in a data-frame, where a new column is added, containing the date and time in POSIX format.
 
 
 \subsection{Data filtering}
+Once the row data have been collected, the Shiny back-end proceeds to reevaluate the filtering, which is based on the device IDs and date range chosen in the interface.
+The resulting subset of entries is then sorted by device ID and time, in order to simplify its visualization.
+
+These operations are performed usings the \code{dplyr} package, which provides useful tools for data manipulation.
+In particular, the \code{filter()} and \code{arrange()} functions have been employed.
 
 
 \subsection{Map visualization}
+The map integration package \code{leaflef} allows the developer to include custom elements, including markers, polygons, and lines.
+Though a simple data frame with latitude and longitude values in separate columns is enough to describe most geometrical entities, more complex data formats are available as inputs, provided by the package \code{sp}, which contains classes and methods for spatial data.
+
+The \emph{Spatial Lines Data Frame} class has been used to plot several poly-lines and color them accordingly.
+The data has been encapsulated into the correct format --- comprising a list of coordinates and an ID field --- using the R function \code{lapply()}, which performs a user-defined function on the elements of an array.
+It this case, it has been performed on the list of unique device IDs, that have then been used to filter the relevant coordinates and generate \emph{Spatial Line} objects.
+
+In order to avoid reloading the whole map at every update cycle, a reactive \emph{observer} is employed, where only the overlaying elements are redrawn.
+These include the lines, markers, and legend, which follow a consistent color scheme.
+The colors are picked by a reactive function with internally uses a discrete palette and performs interpolation when the number of devices to show differs from the number of available colors.
+Further formatting options, including stroke width and opacity, is also applied.
 
 
 \subsection{Plot visualization}
+Although R comes with several valid built-in plotting libraries and methods, they output static images, which has deemed too limiting in terms of user interaction.
+It has therefore been chosen to adopt \emph{Plotly}, an online data visualization framework written in JavaScript.
+Whilst several similarly-aimed tools are availble, Plotly provides seamless integration with R and Shiny through its official package, and has recently been released as open source.
+
+The chart featured in the final product has been generated using the following three functions:
+\begin{description}
+	\item[\code{plot\_ly()}] instantiate a new plot device, with optional dataset parameter
+	\item[\code{add\_trace()}] adds a new set of data to the current plot. It is possible to select between various types of plots and visualizations; in this case, two scatter traces (altitude and speed) have been added and visualized as bars and lines respectively
+	\item[\code{layout()}] sets up the plot canvas with title, axes names, labels, and grid
+\end{description}

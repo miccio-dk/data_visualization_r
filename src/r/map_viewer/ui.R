@@ -55,13 +55,13 @@ shinyUI(fluidPage(
       leafletOutput(
         "map",
         width = "100%",
-        height = "300px"),
+        height = "325px"),
       hr(),
       # plotly chart object
       plotlyOutput(
         "plot",
         width = "100%",
-        height = "275px")
+        height = "250px")
     )
   )
 ))

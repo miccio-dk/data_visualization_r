@@ -16,22 +16,22 @@ shinyServer(function(input, output, session) {
   gsheet_key <- "1qZiPVyEPLzjBmFguJLslwv5xIN00_t_cisOPk9PB1X4"
   gsheet_file <- gs_key(gsheet_key)
   gsheet_sheet <- "p1"
-  
+
   # reactive expression for the raw data
   allData <- reactive({
     # reload every 2 seconds
     if(input$realtime) {
       invalidateLater(5000, session)
     }
-    
+
     # read data with Google Sheet API
     data <- gs_read(gsheet_file, ws = gsheet_sheet, range = cell_cols("A:F"), literal = TRUE)
-    
+
     # add POSIXct date-time column
     data$date_time_posix <- as.POSIXct(data$date_time, format = "%d/%m/%Y %H:%M:%S")
     return(data)
   })
-  
+
   # reactive expression for the user-filtered data
   filteredData <- reactive({
     if(is.null(input$device_ids) || input$device_ids == "wait") {
@@ -44,36 +44,36 @@ shinyServer(function(input, output, session) {
         filter(format(date_time_posix, "%Y-%m-%d") >= min(input$date)) %>%
         filter(format(date_time_posix, "%Y-%m-%d") < max(input$date))
     }
-    
+
     # sort by device id and time
-    data_sorted <- data %>% arrange(device_id, date_time)
-    
+    data_sorted <- data %>% arrange(device_id, date_time_posix)
+
     return(data_sorted)
   })
-  
+
   # reactive expression for a colorblind-safe (up to 4 elements) palette, based on :
   # http://colorbrewer2.org/#type=qualitative&scheme=Paired&n=5
   col_palette <- reactive({
     colorFactor(
-      palette = c('#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99'),
+      palette = c('#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00'),
       domain = filteredData()$device_id,
       ordered = TRUE
     )
   })
-  
-  
+
+
   # generates map obj and add pretty tiles
   output$map <- renderLeaflet({
     leaflet() %>%
       addProviderTiles(
-        "OpenStreetMap.Mapnik", 
+        "OpenStreetMap.Mapnik",
         options = providerTileOptions(noWrap = TRUE))
   })
-  
+
   # generate plot obj
   output$plot <- renderPlotly({
-    validate(need(length(input$device_ids) == 1, "Select a single device ID to show extra data"))
-    
+    validate(need(length(input$device_ids) == 1 & input$device_ids != "wait", "Select a single device ID to show extra data"))
+
     plot_ly(filteredData()) %>%
       add_trace(
         x = ~date_time_posix,
@@ -98,71 +98,71 @@ shinyServer(function(input, output, session) {
         title = "Speed and altitude of selected device",
         xaxis = list(title = ""),
         yaxis = list(
-          side = "left", 
-          title = "Altitude (m)", 
-          showgrid = FALSE, 
+          side = "left",
+          title = "Altitude (m)",
+          showgrid = FALSE,
           zeroline = FALSE),
         yaxis2 = list(
-          overlaying = "y", 
-          side = "right", 
-          title = "Speed (m/s)", 
-          showgrid = FALSE, 
+          overlaying = "y",
+          side = "right",
+          title = "Speed (m/s)",
+          showgrid = FALSE,
           zeroline = FALSE),
         hovermode = "closest")
   })
-  
-  
+
+
   # observer for loading devices ids int select box
   observe({
     if(nrow(allData()) > 1) {
       # get unique list of ids
       lst_device_ids <- allData() %>% select(device_id) %>% unique()
-      
+
       if(!is.null(input$device_ids) && input$device_ids == "wait") {
         # update widget content
         updateSelectInput(
-          session, "device_ids", 
-          choices = as.list(lst_device_ids), 
+          session, "device_ids",
+          choices = as.list(lst_device_ids),
           selected = as.array(lst_device_ids$device_id))
         updateDateRangeInput(
           session, "date",
-          start = min(format(as.POSIXct(allData()$date_time, format = "%d/%m/%Y"), "%Y-%m-%d")),
-          end = max(format(as.POSIXct(allData()$date_time, format = "%d/%m/%Y"), "%Y-%m-%d")))
+          start = min(allData()$date_time_posix),
+          end = max(allData()$date_time_posix))
       }
     }
   })
-    
+
   # observer for updating the map elements
   observe({
     # load user-filtered data
     data_filtered <- filteredData()
-    
+
     if(nrow(data_filtered) > 0) {
       # generate unique list of ids
-      data_unique_id <- unique(data_sorted$device_id)
-      
+      data_unique_id <- unique(data_filtered$device_id)
+
       # generate list of individual paths based on unique ids
       lst_paths <- lapply(data_unique_id, function(id){
         # filter by device id
-        data_sorted_id <- data_sorted %>% filter(device_id == id)
-        # return Lines obj generated from a data matrix of [lng lan] 
-        Lines(Line(data.matrix(data_sorted_id[c("lng", "lat")])), ID = id)
+        data_filtered_id <- data_filtered %>% filter(device_id == id)
+        # return Lines obj generated from a data matrix of [lng lan]
+        Lines(Line(data.matrix(data_filtered_id[c("lng", "lat")])), ID = id)
       })
-      
+
       # spatial lines df object
       sldf_device_id <- data_unique_id
       sl_paths <- SpatialLinesDataFrame(
         sl = SpatialLines(lst_paths),
         data = as.data.frame(
-          x = sldf_device_id, 
+          x = sldf_device_id,
           row.names = sldf_device_id))
-      
+
       # generate markers on users current positions
-      markers <- data_filtered %>% 
-        group_by(device_id) %>% 
-        filter(date_time == max(date_time)) %>% 
+      markers <- data_filtered %>%
+        group_by(device_id) %>%
+        filter(date_time == max(date_time)) %>%
         arrange(device_id)
-      
+
       # update map view obj with graphic elements
       leafletProxy("map") %>%
         clearShapes() %>%
@@ -187,37 +187,36 @@ shinyServer(function(input, output, session) {
           values = data_unique_id,
           pal = col_palette(),
           title = "Device IDs",
-          position = "topright", 
+          position = "topright",
           opacity = 1) %>%
         fitBounds(
-          lat1 = min(data_sorted$lat), 
-          lng1 = min(data_sorted$lng), 
-          lat2 = max(data_sorted$lat), 
-          lng2 = max(data_sorted$lng))
+          lat1 = min(data_filtered$lat),
+          lng1 = min(data_filtered$lng),
+          lat2 = max(data_filtered$lat),
+          lng2 = max(data_filtered$lng))
     }
   })
-  
+
   # observer event for filter reset button
   observeEvent(input$resetFilter, {
     # update widget content
     updateSelectInput(
-      session, "device_ids", 
-      choices = list("Wait..." = "wait"), 
+      session, "device_ids",
+      choices = list("Wait..." = "wait"),
       selected = "wait")
     updateDateRangeInput(
       session, "date",
       start = min(allData()$date_time_posix),
-      end = max(format(as.POSIXct(allData()$date_time, format = "%d/%m/%Y"), "%Y-%m-%d")))
+      end = max(allData()$date_time_posix))
   })
 
   # observer event for clear remote data button
   observeEvent(input$clearRemote, {
-    cat(file = stdout(), "aaa")
     gs_edit_cells(gsheet_file, gsheet_sheet, anchor = "A2",
                   input = matrix("", nrow = nrow(allData()), ncol = 4))
   })
-  
-  
+
+
   # download handler for export shown data button
   output$exportDataCurr <- downloadHandler(
     filename = function() {
@@ -229,7 +228,7 @@ shinyServer(function(input, output, session) {
       write.table(data, file, sep = ",", row.names = FALSE)
     }
   )
-  
+
   # download handler for export all data button
   output$exportDataAll <- downloadHandler(
     filename = function() {
@@ -242,4 +241,3 @@ shinyServer(function(input, output, session) {
     }
   )
 })
-  
