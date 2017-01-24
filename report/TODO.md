@@ -14,17 +14,17 @@
   - [ ] Fix bugs
 - [ ] Report
 - [ ] Poster (A0)
-  - [ ] Layout
+  - [x] Layout
   - [ ] Style
-  - [ ] Objectives
-  - [ ] Intro
+  - [x] Objectives
+  - [x] Intro
   - [ ] Reqs
   - [ ] Tools
   - [ ] Implementation
   - [ ] Testing
   - [ ] Conclusion
-  - [ ] Refs
-  - [ ] Contacts
+  - [x] Refs
+  - [x] Contacts
 
 
 ## Report
@@ -36,7 +36,7 @@
 - [x] Analysis
   - [x] Milestone plan
   - [x] Requirements
-    - [x] Functional requirements
+    - [ ] Functional requirements
     - [x] Non functional requirements
   - [x] Tools
     - [x] Android Studio
@@ -50,13 +50,23 @@
 - [x] Design
   - [x] Infrastructure
   - [ ] Android
+    - [ ] Project structure
+    - [x] Interface
+    - [ ] User Authentication
+    - [ ] Location tracking
+    - [ ] Data submission
   - [ ] iOS
-  - [x] R  
-- [ ] Testing
+  - [x] R
+    - [x] Architecture
+    - [x] Interface
+    - [x] Data collection
+    - [x] Data filtering
+    - [x] Map visualization
+    - [x] Plot visualization
+- [x] Testing
   - [ ] Acceptance tests
-- [ ] Conclusions
+- [x] Conclusions
   - [ ] Product assessment
-  - [ ] Process assessment
   - [ ] Future improvements
 - [ ] Bibliography
 - [ ] Appendices
