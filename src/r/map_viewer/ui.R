@@ -10,8 +10,6 @@ library(plotly)
 
 
 # TODO 
-# - fix zoom bug
-# - mention UI reqs in report SRS
 # - add heatmap of user positions
 # - time-series pplots http://rstudio.github.io/dygraphs/gallery-series-options.html
 

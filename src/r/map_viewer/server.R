@@ -188,12 +188,16 @@ shinyServer(function(input, output, session) {
           pal = col_palette(),
           title = "Device IDs",
           position = "topright",
-          opacity = 1) %>%
-        fitBounds(
-          lat1 = min(data_filtered$lat),
-          lng1 = min(data_filtered$lng),
-          lat2 = max(data_filtered$lat),
-          lng2 = max(data_filtered$lng))
+          opacity = 1)
+      
+      if(is.null(input$map_bounds)) {
+        leafletProxy("map") %>%
+          fitBounds(
+            lat1 = min(data_filtered$lat),
+            lng1 = min(data_filtered$lng),
+            lat2 = max(data_filtered$lat),
+            lng2 = max(data_filtered$lng))
+      }
     }
   })
 
@@ -208,6 +212,7 @@ shinyServer(function(input, output, session) {
       session, "date",
       start = min(allData()$date_time_posix),
       end = max(allData()$date_time_posix))
+    input$map_bounds <- NULL
   })
 
   # observer event for clear remote data button

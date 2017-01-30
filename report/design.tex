@@ -24,21 +24,68 @@ The figure above expresses the relations between the aforementioned elements of 
 The blue hexagons represents cloud-based services.
 The dotted line suggests a possible hosting solution, based on \emph{ShinyApps.io}.
 
-\section{iOS}
 
 
-
-\section{Android}
+\section{Mobile phone app}
+The phone app is the part of the system that runs on the end users' mobile device, and is responsible for collecting the GPS data and submitting them to the remote storage location.
+The Android version of the app --- which is the main focus of this report --- has been developed in JAVA using the \emph{Android Studio}  development environment and the \emph{Android SDK} libraries, which are freely distributed by Google.
+The IDE built-in device emulator has been extensively used for testing the app during its initial stages, while the data collection was performed on a device.
+A corresponding \emph{iOS} application has also been developed, performing the same tasks as the Android version.
 
 
 \subsection{Project structure}
-% structure
-% build system
-% important files
+The Android project stub has been generated using the built-in wizard, which takes care of creating all the necessary build scripts, configuration, and source files.
+The conventional folder structure has been adopted.
+In particular, these are the most important components of the app:
+
+\begin{table}[H]
+\centerfloat
+\begin{tabular}{@{} >{\ttfamily\footnotesize}l >{\footnotesize}l @{}}
+	\toprule
+	\normalfont{Directory or file}	& Description \\
+	\midrule
+	.							& Project root folder \\
+	./gradlew					& Build script for gradle (Linux) \\
+	./build.gradle				& Project-level build file \\
+	./app/						& Phone and tablet app module folder \\
+	./app/build.gradle			& App-level build file \\
+	./app/proguard-rules.pro	& Configuration for ProGuard (code shrinker) \\
+	./app/src/main/AndroidManifest.xml		& App manifest document \\
+	./app/src/main/java/					& App Java source code folder \\
+	./app/src/main/res/						& App resources folder \\
+	./app/src/main/res/layout/				& Layouts for user interfaces \\
+	./app/src/main/res/mipmap/				& Launcer icons \\
+	./app/src/main/res/values/colors.xml	& List of colors \\
+	./app/src/main/res/values/dimens.xml	& Dimension values (margins, font sizes\dots) \\
+	./app/src/main/res/values/strings.xml	& Text strings, for ease of internationalization \\
+	\bottomrule
+\end{tabular}
+\caption{{\footnotesize Android app: folder structure}}
+\end{table}
+
+Android Studio projects use the \emph{gradle} build automation system for compiling the code, managing dependencies, and generating the necessary \code{.apk} archive.
+Including external libraries and other dependencies can be done by adding an entry to the app-level \code{build.gradle} file.
+
+For the fulfillment of this project, the following libraries have been included:
+\begin{description}
+	\item[{\footnotesize\code{com.android.support}}] Support library implementing \emph{Material Design} recommendations for widgets and user interfaces
+	\item[{\footnotesize\code{com.google.android.gms}}] Google \emph{Play Services} APIs providing a variety of functionalities; used for logging into a Google account and obtaining location data
+	\item[{\footnotesize\code{com.google.api-client}}] Common functionalities for accessing Google APIs (authentication, JSON and XML parsing, error handling\dots)
+	\item[{\footnotesize\code{com.google.apis:google-api-services-sheets}}] Google Sheets-specific definitions and methods
+\end{description}
+
+Along with the previously mentioned \code{build.gradle} file, another important document is \code{AndroidManifest.xml}, which provides essential information about the app to the Android system.
+This may include:
+\begin{itemize}
+	\item Java package name for the application
+	\item Any component included in the app, such as activities, services\dots
+	\item Permissions required to access protected parts of the APIs; for the developed app, they are the following: \code{ACCESS\_FINE\_LOCATION}, \code{INTERNET}, \code{ACCESS\_NETWORK\_STATE} and \code{GET\_ACCOUNTS}
+\end{itemize}
+
 
 \subsection{Interface}
-The UI of the app is composed of three graphical elements: a text input box for entering a custom time interval in seconds, and start and stop tracking buttons.
-The widgets are arranged using a \code{LinearLayout}.
+The UI of the app is implemented within a single \code{Activity} class, and is composed of three graphical elements: a text input box for entering a custom time interval in seconds, and start and stop tracking buttons.
+The widgets are arranged using a \code{LinearLayout}, and are declared in the \code{res/layout/activity\_main.xml} file.
 Other aspects of the user interface include \emph{toats}, which are small, temporary pop-up messages that appear at each submitted location.
 The figure below shows a screen capture of the app, with one such message.
 
@@ -47,14 +94,37 @@ The figure below shows a screen capture of the app, with one such message.
 A previous version of the app --- not backed by the \code{Service} class --- featured a text box showing information about the latest location acquired.
 
 
-\subsection{User Authentication}
+\subsection{Preliminary tasks}
+Before starting to collect location data, the app has to correctly set up several objects and handlers, which will provide access to the necessary functionalities and APIs.
+These objects are:
+\begin{description}
+	\item[\code{GoogleApiClient}] Entry point for Google Play Services integration. This object is constructed using the \emph{Builder} design pattern, which lets the developer include optional arguments, such as the requested API (location, in this case) and connection callbacks. Once built, the object has to connect to Play Services to be functional. Depending on the result of the connection attempt, the \code{onConnected()} method or the \code{onConnectionFailed()} will be invoked.
+	\item[\code{LocationRequest}] Data object storing the desired characteristics of the location update request. The parameters that have been set for this project include: nominal update interval, minimum update interval, accuracy level, and minimum distance between points.
+	\item[\code{GoogleAccountCredential}] Manages authorization and account selection for Google accounts. This object is constructed using a \emph{OAuth 2.0}-based \emph{Factory} method, which requires a list of scopes (i.e. requested functionalities) as argument. The object has no associated account by default, so a new dialog will prompt the user to choose one.
+	\item[\code{Sheets}] Abstraction of Google Sheets APIs. It is used to execute operations on documents, and it is constructed using a Builder too. It requires an HTTP transport abstraction object, a JSON factory object --- which are both generated on-the-fly, and the previously described credential object.
+\end{description}
 
 
 \subsection{Location tracking}
+Once the preliminary setup has been performed and the Google API client object is connected to the Play Services, it is possible to request location updates.
+This method of acquiring data is more effective and efficient than polling the current known location, as it provides finer control o the accuracy and frequency of the updates (through the previously mentioned \code{LocationRequest} object).
+Location updates can be requested by calling the \code{requestLocationUpdates()} method, which takes three arguments: a \code{GoogleApiClient} object, a \code{LocationRequest} object, and an object of a class that implements the \code{LocationListener} interface --- namely, the main activity class.
+This interface lets the developer override the \code{onLocationChanged()} callback method, which is invoked whenever a new point is available.
+
+It is important to note how  particular work flow is best suited for a foreground use case.
+During the writing of this document, efforts were being made to convert the application to a more universal solution based on a \code{PendingIntent} object.
+This class is constructed using the \code{getService} method, which generates a \code{PendingIntent} that will start a service, with the start arguments given from the extras of the \code{Intent} argument.
+The implemented service sub-class overrides the \code{onStartCommand()} method, from where the new location is extracted and processed.
 
 
 \subsection{Data submission}
-
+The location data is contained in a \code{Location} data object that stores latitude, longitude, heading, speed, and many other GPS-related measures.
+Uploading these values --- along with the time-stamp and device ID --- is outsourced to an asynchronous task.
+The task is implemented by inheriting from the \code{AsyncTask} class.
+The main functionalities are coded into the overrideable \code{doInBackground()} method, and merely consist in packing the data into a \code{ValueRange} object and submitting it.
+This is done by calling the \code{append()} function on the \code{Sheets} object created earlier.
+The call internally executes an \code{HTTP POST} request to the Google API servers, with the data encoded in JSON format.
+Possible errors returned in the response are thrown as instances of \code{IOException}, and taken care of in the task \code{onCancelled()} method by requesting further missing authorizations or showing the error content in a message.
 
 
 \section{R}
@@ -68,6 +138,7 @@ The features that allows Shiny to provide responsive feedback lies in the update
 Expressions that are invalidated will be immediately reevaluated or redrawn.
 
 % reactive plot http://shiny.rstudio.com/articles/reactivity-overview.html
+% TODO mention how it's generated
 \fig{9cm}{rd_shiny.png}{Shiny Application: reactivity diagram}{rd_shiny}
 
 The picture above shows the relations between the different blocks of code.
@@ -78,7 +149,7 @@ The red nodes represents observer and reactive events that are triggered by the 
 
 
 \subsection{Interface}
-The UI of the web application is written in R in a declarative paradigm.
+The UI of the web application is written in R, using a declarative paradigm.
 Each graphic element is defined within its hierarchical parent, along with a set of options.
 The R code returns a block of \code{html} elements that implement the UI.
 Shiny uses the \code{bootstrap} front-end framework to allow for responsive pages, and comes with a series of built-in widgets for user interaction.
@@ -135,7 +206,7 @@ Further formatting options, including stroke width and opacity, is also applied.
 \subsection{Plot visualization}
 Although R comes with several valid built-in plotting libraries and methods, they output static images, which has deemed too limiting in terms of user interaction.
 It has therefore been chosen to adopt \emph{Plotly}, an online data visualization framework written in JavaScript.
-Whilst several similarly-aimed tools are availble, Plotly provides seamless integration with R and Shiny through its official package, and has recently been released as open source.
+Whilst several similarly-aimed tools are available, Plotly provides seamless integration with R and Shiny through its official package, and has recently been released as open source.
 
 The chart featured in the final product has been generated using the following three functions:
 \begin{description}

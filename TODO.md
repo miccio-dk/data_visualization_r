@@ -5,20 +5,19 @@
 - [ ] Android Studio
   - [x] Implement normal
   - [ ] Implement service
+  - [x] Implement user prefs
   - [ ] Fix bugs
-- [ ] RStudio
+- [x] RStudio
   - [x] Implement
-  - [ ] Fix bugs
-- [ ] iOS
-  - [ ] Implement
-  - [ ] Fix bugs
+  - [x] Fix bugs
 - [ ] Report
+  - [ ] Proofread
 - [ ] Poster (A0)
   - [x] Layout
   - [ ] Style
   - [x] Objectives
   - [x] Intro
-  - [ ] Reqs
+  - [x] Reqs
   - [ ] Tools
   - [ ] Implementation
   - [ ] Testing
@@ -36,7 +35,7 @@
 - [x] Analysis
   - [x] Milestone plan
   - [x] Requirements
-    - [ ] Functional requirements
+    - [x] Functional requirements
     - [x] Non functional requirements
   - [x] Tools
     - [x] Android Studio
@@ -49,13 +48,12 @@
     - [x] Other tools
 - [x] Design
   - [x] Infrastructure
-  - [ ] Android
-    - [ ] Project structure
+  - [x] Phone App
+    - [x] Project structure
     - [x] Interface
-    - [ ] User Authentication
-    - [ ] Location tracking
-    - [ ] Data submission
-  - [ ] iOS
+    - [x] Preliminary tasks
+    - [x] Location tracking
+    - [x] Data submission
   - [x] R
     - [x] Architecture
     - [x] Interface
@@ -63,18 +61,28 @@
     - [x] Data filtering
     - [x] Map visualization
     - [x] Plot visualization
+	- [x] iOS
 - [x] Testing
-  - [ ] Acceptance tests
+  - [x] Acceptance tests
+  - [ ] Timing tests
 - [x] Conclusions
   - [ ] Product assessment
   - [ ] Future improvements
-- [ ] Bibliography
-- [ ] Appendices
+- [x] Bibliography
+- [x] Appendices
+  - [x] Attachments description
+    - [x] R Shiny application
+    - [x] Data timing R script
+    - [x] Reactive diagram code
+    - [x] Android project (repo branches)
+    - [x] Poster LaTeX code
+    - [x] Report LaTeX code
 
 
 ## Questions
 
-- iOS section?
-- Types of testing?
-- Is R part complete?
+- iOS section?					
+- Types of testing? 			SRS tracing, time measuring
+- Is R part complete?			yes
 - Android tracking as service?
+- marked citation?

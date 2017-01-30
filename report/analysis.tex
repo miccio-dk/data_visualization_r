@@ -56,21 +56,26 @@ Requirements introduced by the modal verb \emph{shall} indicate mandatory condit
 
 \begin{table}[H]
 \centerfloat
-\begin{tabular}{@{} m{4em} >{\small}l @{}}
-    \toprule
-    ID      & \normalfont{Description} \\
-    \midrule
-    SRS.F.1    & The mobile apps shall submit their ID, timestamp, and current location at a given interval \\
-	SRS.F.2    & The location provided by the mobile apps shall be the most precise available \\
-    SRS.F.3    & The submitted mobile data shall be stored in a \emph{Google Sheets} document  \\
-	SRS.F.4    & The location shall be expressed in geographical coordinates (latitude and longitude) \\
-	SRS.F.5    & The device IDs shall be unique \\
-	SRS.F.6    & The submitted timestamps shall be relative to UTC-0 \\
-    SRS.F.7    & The front-end application shall visualize the current position of the tracked devices \\
-    SRS.F.8    & The front-end application shall update with new data at a given interval \\
-    \bottomrule
+\begin{tabular}{@{} m{4em} >{\small}m{34em} @{}}
+	\toprule
+	ID			& \normalfont{Description} \\
+	\midrule
+	SRS.F.1		& The mobile apps shall submit its GPS and identification data at a given interval \\
+	SRS.F.2		& The GPS data shall comprise location, and altitude and speed when available \\
+	SRS.F.3		& The location shall be expressed in geographical coordinates (latitude and longitude) \\
+	SRS.F.4		& The identification data shall comprise of a device ID and timestamp \\
+	SRS.F.5		& The device IDs shall be unique \\
+	SRS.F.6		& The data shall be submitted and stored in a \emph{Google Sheets} document \\
+	SRS.F.7		& The GPS data acquisition shall be explicitly enabled by the user \\
+	\midrule
+	SRS.F.8		& The front-end application shall update with new data at a given interval \\
+	SRS.F.9		& The front-end application shall allow the user to select a date range and a set of devices \\
+	SRS.F.10	& The front-end application shall visualize the path and current position of the selected devices on a map \\
+	SRS.F.11	& The front-end application shall visualize the altitude and speed of a single device on a plot \\
+	SRS.F.12	& The front-end application shall allow the user to export the collected data \\
+	\bottomrule
 \end{tabular}
-\caption{Software requirements specification: functional requirements}\label{tab:srs_fun}
+\caption{{\footnotesize Software requirements specification: functional requirements}}
 \end{table}
 
 
@@ -80,21 +85,22 @@ This section specifies desired characteristics and qualities of the system.
 \begin{table}[H]
 \centerfloat
 \begin{tabular}{@{} m{4em} >{\small}l @{}}
-    \toprule
-    ID      & \normalfont{Description} \\
-    \midrule
-	SRS.NF.1    & The Android app code shall be written in Java \\
-	SRS.NF.2    & The Android app code shall employ \emph{Android Studio} build system \\
-    SRS.NF.3    & The iOS app code shall be written in Swift \\
-	SRS.NF.4    & The front-end application shall be written in R \\
-	SRS.NF.5    & The front-end application should limit its data requests to the bare necessary \\
-    SRS.NF.6    & All source code shall follow a consistent format style \\
-    SRS.NF.7    & All source code shall be properly documented \\
-    SRS.NF.8    & All source code should be trivially buildable and executable on other platforms \\
-    SRS.NF.9    & The released documentation shall be written in English \\
-    \bottomrule
+	\toprule
+	ID			& \normalfont{Description} \\
+	\midrule
+	SRS.NF.1	& The location provided by the mobile apps shall be the most precise available \\
+	SRS.NF.2	& The Android app code shall be written in Java \\
+	SRS.NF.3	& The Android app code shall employ \emph{Android Studio} build system \\
+	SRS.NF.4	& The iOS app code shall be written in Swift \\
+	SRS.NF.5	& The front-end application shall be written in R \\
+	SRS.NF.6	& The front-end application should limit its data requests to the bare necessary \\
+	SRS.NF.7	& All source code shall follow a consistent format style \\
+	SRS.NF.8	& All source code shall be properly documented \\
+	SRS.NF.9	& All source code should be trivially buildable and executable on other platforms \\
+	SRS.NF.10	& The released documentation shall be written in English \\
+	\bottomrule
 \end{tabular}
-\caption{Software requirements specification: non-functional requirements}\label{tab:srs_nfun}
+\caption{{\footnotesize Software requirements specification: non-functional requirements}}
 \end{table}
 
 

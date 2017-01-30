@@ -7,11 +7,15 @@
 \usepackage{courier}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage{fontawesome}
+\usepackage[scale=2]{ccicons}
 \usepackage{caption}
 \usepackage{hyperref}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{refs.bib}
 
 
-\title{Visualizing Mobile Phone Sensors Data in an R Environment}
+\title{Visualizing Mobile Phone Sensor Data in an R Environment}
 \author{Riccardo Miccini  \\
 	Technical University of Denmark - DTU \\
 	}
@@ -33,7 +37,7 @@
   \begin{figure}[H]
   \centerfloat
     \includegraphics[width=\textwidth,height=#1,keepaspectratio]{figures/#2}
-    \caption{#3}
+    \caption{{\footnotesize#3}}
     \label{fig:#4}
   \end{figure}
 }
@@ -66,5 +70,10 @@
 \include{test}
 
 \include{end}
+
+\nocite{*}
+\printbibliography
+
+\include{appendix}
 
 \end{document}
