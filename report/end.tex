@@ -1,6 +1,6 @@
 \chapter{Conclusions}
 The project has reached a satisfactory level of completion.
-As it could be seen in the testing chapter, most of the requirements have been met.
+As it could be seen in the testing chapter, all of the functional requirements have been met.
 
 Nevertheless, the system is far from optimal and could still benefit from further development.
 The following sections will elaborate on the flaws of the solution and attempt to provide viable ways of improving them.
@@ -10,10 +10,28 @@ Although the tools used have not been fully mastered, the principles acquired ov
 
 
 \section{Product assessment}
+The final prototype works as intended and meets all of the functional requirements.
+The major usage limitation is set by the Google Sheets as storage back-end, whose API provides its content in JSON format.
+The amount of data that needs to be transmitted at each update cycle grows considerably, and reaches the order of magnitude of few megabytes for a thousand entries.
+Moreover, in order to be accessed by mobile devices and the R application, the Sheets document has to be publicly available through its URL, which may raise privacy and security concerns.
 
-% spreadsheet limitations
-% security/privacy concerns
+The Android app requires to be running in the foreground for location data to be collected and submitted, which may not be the intended use case.
+The version of the app used for testing doesn't store its device ID permanently, meaning that it would change whenever the app is closed and launched again.
+This limitation has been addressed and fixed in one of the repository branches, using Android data storage guidelines.
+
+As far as the R Shiny application is concerned, its responsiveness drops during the first update cycle, causing the web page to freeze.
+Although more investigation might be necessary, this is believed to be caused by the allocation of the memory resources.
+Nevertheless, the application has been tested and proved functional on several hosting platforms, including \emph{Shinyapps.io}, local hosting, and an Ubuntu-based R server.
+
 
 \section{Future improvements}
-% android: tracking as service
-% r: TODOs in ui.R, integration with bigquery / firebase
+As mentioned above and throughout the design chapter, the Android app should be capable of running in the background.
+This issue has already been addressed, though its implementation has only reached a preliminary stage.
+
+\fig{7cm}{end_google.png}{Data storage: solutions offered by Google Cloud Platform}{end_google}
+
+Regarding the demanding data transfers, optimization may be achieved by adopting a different storage back-end.
+Google Could Platform provides several solutions for storing data in a database-like fashion.
+In particular, the \emph{BigQuery} and \emph{Cloud SQL} products may be suitable for the purpose.
+Other cloud services providers like Amazon or Microsoft have their own counterparts, namely \emph{AWS Redshift} and \emph{Stream Analytics}.
+Another interesting option may be one offered by \emph{Google Firebase Platform}, which integrates a cloud-hosted, real-time database.

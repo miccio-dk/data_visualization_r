@@ -66,8 +66,8 @@
   - [x] Acceptance tests
   - [ ] Timing tests
 - [x] Conclusions
-  - [ ] Product assessment
-  - [ ] Future improvements
+  - [x] Product assessment
+  - [x] Future improvements
 - [x] Bibliography
 - [x] Appendices
   - [x] Attachments description
