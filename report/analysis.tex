@@ -16,6 +16,7 @@ Each task depends from its sub-tasks and --- more indirectly --- on the previous
 \renewcommand{\labelitemiii}{\textbullet}
 \renewcommand{\labelitemiv}{\textbullet}
 \begin{itemize}
+	\setlength\itemsep{0em}
 	\item Extract requirements and use cases
 	\item Evaluate and choose remote hosting service
 	\item Familiarize with necessary tools and languages
@@ -64,15 +65,14 @@ Requirements introduced by the modal verb \emph{shall} indicate mandatory condit
 	SRS.F.2		& The GPS data shall comprise location, and altitude and speed when available \\
 	SRS.F.3		& The location shall be expressed in geographical coordinates (latitude and longitude) \\
 	SRS.F.4		& The identification data shall comprise of a device ID and timestamp \\
-	SRS.F.5		& The device IDs shall be unique \\
-	SRS.F.6		& The data shall be submitted and stored in a \emph{Google Sheets} document \\
-	SRS.F.7		& The GPS data acquisition shall be explicitly enabled by the user \\
+	SRS.F.5		& The data shall be submitted and stored in a \emph{Google Sheets} document \\
+	SRS.F.6		& The GPS data acquisition shall be explicitly enabled by the user \\
 	\midrule
-	SRS.F.8		& The front-end application shall update with new data at a given interval \\
-	SRS.F.9		& The front-end application shall allow the user to select a date range and a set of devices \\
-	SRS.F.10	& The front-end application shall visualize the path and current position of the selected devices on a map \\
-	SRS.F.11	& The front-end application shall visualize the altitude and speed of a single device on a plot \\
-	SRS.F.12	& The front-end application shall allow the user to export the collected data \\
+	SRS.F.7		& The front-end application shall update with new data at a given interval \\
+	SRS.F.8		& The front-end application shall allow the user to select a date range and a set of devices \\
+	SRS.F.9		& The front-end application shall visualize the path and current position of the selected devices on a map \\
+	SRS.F.10	& The front-end application shall visualize the altitude and speed of a single device on a plot \\
+	SRS.F.11	& The front-end application shall allow the user to export the collected data \\
 	\bottomrule
 \end{tabular}
 \caption{{\footnotesize Software requirements specification: functional requirements}}
@@ -88,16 +88,17 @@ This section specifies desired characteristics and qualities of the system.
 	\toprule
 	ID			& \normalfont{Description} \\
 	\midrule
-	SRS.NF.1	& The location provided by the mobile apps shall be the most precise available \\
-	SRS.NF.2	& The Android app code shall be written in Java \\
-	SRS.NF.3	& The Android app code shall employ \emph{Android Studio} build system \\
-	SRS.NF.4	& The iOS app code shall be written in Swift \\
-	SRS.NF.5	& The front-end application shall be written in R \\
-	SRS.NF.6	& The front-end application should limit its data requests to the bare necessary \\
-	SRS.NF.7	& All source code shall follow a consistent format style \\
-	SRS.NF.8	& All source code shall be properly documented \\
-	SRS.NF.9	& All source code should be trivially buildable and executable on other platforms \\
-	SRS.NF.10	& The released documentation shall be written in English \\
+	SRS.NF.1	& The device IDs shall be unique \\
+	SRS.NF.2	& The location provided by the mobile apps shall be the most precise available \\
+	SRS.NF.3	& The Android app code shall be written in Java \\
+	SRS.NF.4	& The Android app code shall employ \emph{Android Studio} build system \\
+	SRS.NF.5	& The iOS app code shall be written in Swift \\
+	SRS.NF.6	& The front-end application shall be written in R \\
+	SRS.NF.7	& The front-end application should limit its data requests to the bare necessary \\
+	SRS.NF.8	& All source code shall follow a consistent format style \\
+	SRS.NF.9	& All source code shall be properly documented \\
+	SRS.NF.10	& All source code should be trivially buildable and executable on other platforms \\
+	SRS.NF.11	& The released documentation shall be written in English \\
 	\bottomrule
 \end{tabular}
 \caption{{\footnotesize Software requirements specification: non-functional requirements}}

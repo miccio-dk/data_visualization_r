@@ -63,21 +63,27 @@ for(num_rows_i in num_rows) {
 }
 
 # append number of rows column
-data$Rows <- as.factor(round(num_rows))
+data$Rows <- round(num_rows)
 
 # generate plot
-p <- ggplot(data, aes(x = Rows, y = Mean)) + 
-  geom_bar(stat = "identity", color = "black", position = position_dodge(), width = .1125) +
-  geom_errorbar(aes(ymin = X1st.Qu., ymax = X3rd.Qu.), width = .2) + 
+p <- ggplot(data, aes(x = Rows, y = Mean, fill = (TPRow * 1000))) + 
+  geom_bar(stat = "identity", color = "black", position = position_dodge(), width = .085) +
+  geom_errorbar(aes(ymin = X1st.Qu., ymax = X3rd.Qu.), width = .025) + 
   labs(
-    title = "Google Sheets data retrieval and processing", 
     x = "Number of rows", 
-    y = "Time taken (s)") +
-  theme(panel.grid.minor = element_line(colour="white", size=0.3)) +
+    y = "Total time taken (s)",
+    fill = "Time per row (ms)") +
+  theme(
+    panel.background = element_blank(),
+    panel.grid.minor = element_line(colour = "lightgray", size = 0.3),
+    panel.grid.major = element_line(colour = "gray", size = 0.5),
+    axis.line = element_line(colour = "darkgray", size = 0.5),
+    axis.ticks = element_line(colour = "darkgray", size = 0.5)) +
   scale_x_log10(
     minor_breaks = c(seq(100 , 1000, 100), seq(1000, 10000, 1000)), 
     breaks = lseq(100, 10000, 3)) + 
   scale_y_log10(
     minor_breaks = c(seq(1, 10, 1), seq(10, 100, 10)), 
-    breaks = lseq(1, 100, 3))
+    breaks = lseq(1, 100, 3)) +
+  scale_fill_continuous(guide = "colourbar")
 print(p)

@@ -200,12 +200,12 @@ It this case, it has been performed on the list of unique device IDs, that have 
 
 In order to avoid reloading the whole map at every update cycle, a reactive \emph{observer} is employed, where only the overlaying elements are redrawn.
 These include the lines, markers, and legend, which follow a consistent color scheme.
-The colors are picked by a reactive function with internally uses a discrete palette and performs interpolation when the number of devices to show differs from the number of available colors.
+The colors are picked by a reactive function that interpolates a discrete palette to match the number of devices.
 Further formatting options, including stroke width and opacity, is also applied.
 
 
 \subsection{Plot visualization}
-Although R comes with several valid built-in plotting libraries and methods, they output static images, which has deemed too limiting in terms of user interaction.
+Although R comes with several valid built-in plotting libraries and methods, they output static images, which was deemed too limiting in terms of user interaction.
 It has therefore been chosen to adopt \emph{Plotly}, an online data visualization framework written in JavaScript.
 Whilst several similarly-aimed tools are available, Plotly provides seamless integration with R and Shiny through its official package, and has recently been released as open source.
 

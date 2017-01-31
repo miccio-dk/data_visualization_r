@@ -7,6 +7,7 @@ Information about the overall performances is available in the product assessmen
 In software and system engineering, acceptance testing is conducted to determine if the SRS (software requirement specifications) are met.
 For the tests, the following tools have been used:
 \begin{itemize}
+	\setlength\itemsep{0em}
 	\item A mobile phone with GPS sensor, running Android 5.0.1
 	\item A host machine
 	\item A web browser, i.e. \emph{Google Chrome}
@@ -23,15 +24,15 @@ For the tests, the following tools have been used:
     \toprule
     \normalfont{ID} & \normalfont{Description} & \normalfont{Related SRS} & \normalfont{Espected result} & \normalfont{Outcome} \\
     \midrule
-	T.1  & Press button \faPlay  				& SRS.F.7-6		& The Google Sheets document shows a new row every second & Passed \\
-	T.2  & Insert number, press button \faPlay	& SRS.F.7-6-1	& The Google Sheets document shows a new row every given interval & Passed \\
-	T.3  & Press button \faPause		 		& SRS.F.7		& The Google Sheets document keeps the same number of rows & Passed \\
-	T.4  & Verify content of the Google Sheets document	& SRS.F.6-4-3-2		& Entries in the file should contain latitude, longitude, speed, and altitude & Passed \\
+	T.1  & Press button \faPlay  				& SRS.F.6-5		& The Google Sheets document shows a new row every second & Passed \\
+	T.2  & Insert number, press button \faPlay	& SRS.F.6-5-1	& The Google Sheets document shows a new row every given interval & Passed \\
+	T.3  & Press button \faPause		 		& SRS.F.6		& The Google Sheets document keeps the same number of rows & Passed \\
+	T.4  & Verify content of the Google Sheets document	& SRS.F.5-4-3-2		& Entries in the file should contain latitude, longitude, speed, and altitude & Passed \\
 	\midrule
-	T.5  & Load R application and perform T.1		& SRS.F.10-8	& The map view periodically shows new path segments & Passed \\
-	T.6  & Use UI controls to select a single device	& SRS.F.11-10-9	& The map view only shows selected device; the plot view populates with bars and a line & Passed \\
-	T.7  & Press button \faDownload \, \emph{all}, inspect the file	& SRS.F.12	& The file contains all the GPS data stored in the Google Sheets document  & Passed \\
-	T.8  & Perform T6, press button \faDownload \, \emph{current data}, inspect the file	& SRS.F.12	& File contains the GPS data relative to the selected device  & Passed \\
+	T.5  & Load R application and perform T.1		& SRS.F.9-7	& The map view periodically shows new path segments & Passed \\
+	T.6  & Use UI controls to select a single device	& SRS.F.10-9-8	& The map view only shows selected device; the plot view populates with bars and a line & Passed \\
+	T.7  & Press button \faDownload \, \emph{all}, inspect the file	& SRS.F.11	& The file contains all the GPS data stored in the Google Sheets document  & Passed \\
+	T.8  & Perform T.6, press button \faDownload \, \emph{current data}, inspect the file	& SRS.F.11	& File contains the GPS data relative to the selected device  & Passed \\
     \bottomrule
 \end{tabular}
 \caption{{\footnotesize Testing: functional requirements}}
@@ -45,14 +46,17 @@ The data is taken from an extensive dataset with more than 5000 entries found in
 
 Here are the specifications of the testing platform:
 \begin{itemize}
+	\setlength\itemsep{0em}
 	\item Host
 	\begin{description}
+		\setlength\itemsep{0em}
 		\item[CPU] Intel Core i7-3632QM @ 2.20 GHz
 		\item[OS] Ubuntu Linux 16.04.1 LTS
 		\item[RAM (only R)] 8 GB (1.2 GB)
 	\end{description}
 	\item Network
 	\begin{description}
+		\setlength\itemsep{0em}
 		\item[Provider] 3
 		\item[Download] 16.32 Mbps
 		\item[Upload] 8.4 Mbps
@@ -65,7 +69,10 @@ The resulting plot shows the variation of download and processing time of the da
 
 \fig{7cm}{test_dl.png}{Testing: Google Sheets data retrieval and processing}{test_dl}
 
-
-As it can be seen from the screenshot below, running the test contributes to exposing how heavy the data decoding is:
+As it can be seen below, running the test contributes to exposing how heavy the data decoding is.
+The screenshot shows the network (bottommost) and CPU (uppermost) load during a 7000 rows by 45 MB transmission.
 
 \fig{7cm}{test_load.png}{Testing: network and CPU load during a 7000 rows by 45 MB transmission}{test_load}
+
+With the data from the two previous pictures at hand, it is possible to infer that the data decoding is performed in a single thread, and the processing time increases linearly with the number of rows.
+However, the color mapping of the bars --- associated to the average elapsed time time per each row --- reveals a slight performance improvement over larger amount of data.

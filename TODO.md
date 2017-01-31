@@ -10,8 +10,8 @@
 - [x] RStudio
   - [x] Implement
   - [x] Fix bugs
-- [ ] Report
-  - [ ] Proofread
+- [x] Report
+  - [x] Proofread
 - [ ] Poster (A0)
   - [x] Layout
   - [ ] Style
@@ -64,7 +64,7 @@
 	- [x] iOS
 - [x] Testing
   - [x] Acceptance tests
-  - [ ] Timing tests
+  - [x] Timing tests
 - [x] Conclusions
   - [x] Product assessment
   - [x] Future improvements
