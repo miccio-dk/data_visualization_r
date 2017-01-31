@@ -4,7 +4,7 @@ It will attempt to thoroughly describe the overall design of the system, as well
 Adequate considerations about the development process will be drawn in the conclusion section.
 
 For the sake of convenience, the proposed system can be divided into two conceptual categories: the part that shall be deployed at the end users' premises (the apps running on mobile phones) and the one that shall be under direct control of the data analyst.
-The latter further comprises a cloud-based infrastructure, and an R application, which can be executed on any host machine, or hosted on a server.
+The latter further comprises a cloud-based infrastructure and an R application, which can be executed on any host machine, or hosted on a server.
 
 
 \section{Infrastructure}
@@ -16,7 +16,7 @@ New data is continuously added to this file, with new entries being appended bel
 
 The recorded data can then be accessed through a web application written in R.
 The application periodically queries the document in order to update the information shown.
-Is can be executed from the data analyst computer, or hosted on a cloud platform.
+It can be executed from the data analyst computer, or hosted on a cloud platform.
 
 \fig{5cm}{nwd_network.png}{Overall system infrastructure: network diagram}{nwd_network}
 
@@ -68,10 +68,10 @@ Including external libraries and other dependencies can be done by adding an ent
 
 For the fulfillment of this project, the following libraries have been included:
 \begin{description}
-	\item[{\footnotesize\code{com.android.support}}] Support library implementing \emph{Material Design} recommendations for widgets and user interfaces
-	\item[{\footnotesize\code{com.google.android.gms}}] Google \emph{Play Services} APIs providing a variety of functionalities; used for logging into a Google account and obtaining location data
-	\item[{\footnotesize\code{com.google.api-client}}] Common functionalities for accessing Google APIs (authentication, JSON and XML parsing, error handling\dots)
-	\item[{\footnotesize\code{com.google.apis:google-api-services-sheets}}] Google Sheets-specific definitions and methods
+	\item[{\footnotesize\code{com.android.support}}] Support library implementing \emph{Material Design} recommendations for widgets and user interfaces.
+	\item[{\footnotesize\code{com.google.android.gms}}] Google \emph{Play Services} APIs providing a variety of functionalities; used for logging into a Google account and obtaining location data.
+	\item[{\footnotesize\code{com.google.api-client}}] Common functionalities for accessing Google APIs (authentication, JSON and XML parsing, error handling\dots).
+	\item[{\footnotesize\code{com.google.apis:google-api-services-sheets}}] Google Sheets-specific definitions and methods.
 \end{description}
 
 Along with the previously mentioned \code{build.gradle} file, another important document is \code{AndroidManifest.xml}, which provides essential information about the app to the Android system.
@@ -85,13 +85,14 @@ This may include:
 
 \subsection{Interface}
 The UI of the app is implemented within a single \code{Activity} class, and is composed of three graphical elements: a text input box for entering a custom time interval in seconds, and start and stop tracking buttons.
+
 The widgets are arranged using a \code{LinearLayout}, and are declared in the \code{res/layout/activity\_main.xml} file.
 Other aspects of the user interface include \emph{toats}, which are small, temporary pop-up messages that appear at each submitted location.
 The figure below shows a screen capture of the app, with one such message.
 
 \fig{9cm}{ss_app.png}{Android App: user interface layout}{ss_app}
 
-A previous version of the app --- not backed by the \code{Service} class --- featured a text box showing information about the latest location acquired.
+The version of the app that is not backed by the \code{Service} class featured a text box showing the content of the latest location acquired.
 
 
 \subsection{Preliminary tasks}
@@ -107,18 +108,18 @@ These objects are:
 
 \subsection{Location tracking}
 Once the preliminary setup has been performed and the Google API client object is connected to the Play Services, it is possible to request location updates.
-This method of acquiring data is more effective and efficient than polling the current known location, as it provides finer control o the accuracy and frequency of the updates (through the previously mentioned \code{LocationRequest} object).
+This method of acquiring data is more effective and efficient than polling the current known location, as it provides finer control of the accuracy and frequency of the updates (through the previously mentioned \code{LocationRequest} object).
 Location updates can be requested by calling the \code{requestLocationUpdates()} method, which takes three arguments: a \code{GoogleApiClient} object, a \code{LocationRequest} object, and an object of a class that implements the \code{LocationListener} interface --- namely, the main activity class.
 This interface lets the developer override the \code{onLocationChanged()} callback method, which is invoked whenever a new point is available.
 
 It is important to note how  particular work flow is best suited for a foreground use case.
 During the writing of this document, efforts were being made to convert the application to a more universal solution based on a \code{PendingIntent} object.
-This class is constructed using the \code{getService} method, which generates a \code{PendingIntent} that will start a service, with the start arguments given from the extras of the \code{Intent} argument.
+This class is constructed using the \code{getService()} method, which generates a \code{PendingIntent} that will start a service, with the start arguments given from the extras of the \code{Intent} argument.
 The implemented service sub-class overrides the \code{onStartCommand()} method, from where the new location is extracted and processed.
 
 
 \subsection{Data submission}
-The location data is contained in a \code{Location} data object that stores latitude, longitude, heading, speed, and many other GPS-related measures.
+The \code{Location} data object stores latitude, longitude, heading, speed, and several other GPS-related measures.
 Uploading these values --- along with the time-stamp and device ID --- is outsourced to an asynchronous task.
 The task is implemented by inheriting from the \code{AsyncTask} class.
 The main functionalities are coded into the overrideable \code{doInBackground()} method, and merely consist in packing the data into a \code{ValueRange} object and submitting it.
@@ -142,7 +143,7 @@ Expressions that are invalidated will be immediately reevaluated or redrawn.
 \fig{9cm}{rd_shiny.png}{Shiny Application: reactivity diagram}{rd_shiny}
 
 The picture above shows the relations between the different blocks of code.
-If two elements are connected, whenever the origin changes changes, the destination is notified that it needs to re-execute.
+If two elements are connected, whenever the origin changes, the destination is notified that it needs to re-execute.
 The dotted line represents a periodic operation.
 The system inputs, outputs, and reactive expressions are denoted by the cyan, green, and orange nodes respectively.
 The red nodes represents observer and reactive events that are triggered by the invalidation of the affected elements.
@@ -154,7 +155,7 @@ Each graphic element is defined within its hierarchical parent, along with a set
 The R code returns a block of \code{html} elements that implement the UI.
 Shiny uses the \code{bootstrap} front-end framework to allow for responsive pages, and comes with a series of built-in widgets for user interaction.
 
-The page is based on the the \code{sidebarLayout}, which consists in a main area, used to visualize a map with the end users' positions and a plot of recorded speed and altitude, and a side bar, with filtering and data export options.
+The page is based on \code{sidebarLayout()}, which consists in a main area, used to visualize a map with the end users' positions and a plot of recorded speed and altitude, and a side bar, with filtering and data export options.
 
 \fig{7cm}{ss_ui.png}{Shiny Application: user interface layout}{ss_ui}
 
@@ -210,7 +211,7 @@ Whilst several similarly-aimed tools are available, Plotly provides seamless int
 
 The chart featured in the final product has been generated using the following three functions:
 \begin{description}
-	\item[\code{plot\_ly()}] instantiate a new plot device, with optional dataset parameter
-	\item[\code{add\_trace()}] adds a new set of data to the current plot. It is possible to select between various types of plots and visualizations; in this case, two scatter traces (altitude and speed) have been added and visualized as bars and lines respectively
-	\item[\code{layout()}] sets up the plot canvas with title, axes names, labels, and grid
+	\item[\code{plot\_ly()}] instantiate a new plot device, with optional dataset parameter.
+	\item[\code{add\_trace()}] adds a new set of data to the current plot. It is possible to select between various types of plots and visualizations; in this case, two scatter traces (altitude and speed) have been added and visualized as bars and lines respectively.
+	\item[\code{layout()}] sets up the plot canvas with title, axes names, labels, and grid.
 \end{description}

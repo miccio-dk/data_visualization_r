@@ -39,3 +39,33 @@ For the tests, the following tools have been used:
 
 
 \section{Timing tests}
+A way of assessing the performance of the developed solution and infrastructure is determining the network capacity of the Google Sheets API, as well as the computational power required after each update.
+The devised test consists in an R script repeatedly querying data from the Google Sheets servers, over logarithmically-increasing numbers of existing rows.
+The data is taken from an extensive dataset with more than 5000 entries found in the \code{ggplot2movies} R package.
+
+Here are the specifications of the testing platform:
+\begin{itemize}
+	\item Host
+	\begin{description}
+		\item[CPU] Intel Core i7-3632QM @ 2.20 GHz
+		\item[OS] Ubuntu Linux 16.04.1 LTS
+		\item[RAM (only R)] 8 GB (1.2 GB)
+	\end{description}
+	\item Network
+	\begin{description}
+		\item[Provider] 3
+		\item[Download] 16.32 Mbps
+		\item[Upload] 8.4 Mbps
+	\end{description}
+\end{itemize}
+Network information is provided by \code{http://www.speedtest.net/}.
+The version of R and relative packages is the latest available at the time of writing.
+
+The resulting plot shows the variation of download and processing time of the data:
+
+\fig{7cm}{test_dl.png}{Testing: Google Sheets data retrieval and processing}{test_dl}
+
+
+As it can be seen from the screenshot below, running the test contributes to exposing how heavy the data decoding is:
+
+\fig{7cm}{test_load.png}{Testing: network and CPU load during a 7000 rows by 45 MB transmission}{test_load}

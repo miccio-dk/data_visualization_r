@@ -24,7 +24,7 @@ Each task depends from its sub-tasks and --- more indirectly --- on the previous
 		\item Java and Android Studio
 		\begin{itemize}
 			\item Acquire device location
-			\item Read and append content to the remote platform
+			\item Read and append content to Google Sheets
 		\end{itemize}
 	\end{itemize}
 	\item Software development
@@ -50,7 +50,7 @@ The list of requirements is therefore mostly based on former knowledge, common s
 
 \subsection{Functional requirements}\label{subsec:req_func}
 This section defines specific behaviors or functionalities, and is the basis for the tests.
-Requirements introduced by the modal verb \emph{shall} indicate mandatory conditions, whilst those introduced by the modal verb \emph{may} indicate optional features.
+Requirements introduced by the modal verb \emph{shall} indicate mandatory conditions, whilst those introduced by the modal verb \emph{should} indicate optional features.
 % data have to be uploaded on Google Sheets
 % visualization has to be done in R
 
@@ -111,8 +111,8 @@ These include development tool and software components or libraries used by the 
 
 \subsection{Android Studio}
 Android Studio is the official IDE (integrated development environment) for native Android development.
-It is distributed freely by Google for Windows, Mac OS X and Linux platforms, and it is based on emph{JetBrains' IntelliJ IDEA}, a proprietary IDE for Java.
-It replaced emph{Eclipse Android Development Tools} as Google's primary IDE for Android application development.
+It is distributed freely by Google for Windows, Mac OS X and Linux platforms, and it is based on \emph{JetBrains' IntelliJ IDEA}, a proprietary IDE for Java.
+It replaced \emph{Eclipse Android Development Tools} as Google's primary IDE for Android application development.
 
 The IDE provides a series of Android-specific tools and features.
 The most notable ones are:
@@ -128,7 +128,7 @@ The most notable ones are:
 
 \subsection{RStudio}
 RStudio is a free and open-source IDE for R, a programming language for statistical computing.
-Several editions of the software exist: a emph{Desktop} one, available on Windows, OS X, and Linux, and a emph{Server} and emph{ServerPro} one, with allows access through web browser from several terminals.
+Several editions of the software exist: a \emph{Desktop} one, available on Windows, OS X, and Linux, and a \emph{Server} and \emph{ServerPro} one, with allows access through web browser from several terminals.
 
 The software comprises a text editor with code completion and syntax highlighting, an interactive command interpreter with built-in debug, command history, and data viewer, as well as a package manager and a documentation browser.
 
@@ -137,7 +137,7 @@ The software comprises a text editor with code completion and syntax highlightin
 
 \subsection{R packages}
 The capabilities of R can be extended through a system of packages.
-Such packages may provide alternative graphics tools, additional statistical and data handling functions, or APIs and bindings for other services and software.
+They may provide alternative graphics tools, additional statistical and data handling functions, or APIs and bindings for other services and software.
 R packages can be developed in R, C, C++, and Fortran, and are normally distributed through the \emph{CRAN} (Comprehensive R Archive Network).
 
 Packages that are not part of the core implementation have to be downloaded and loaded into the environment prior to their use.
@@ -149,7 +149,7 @@ Here follows a list and description of the most important R packages that will b
 \begin{description}
 	\item[\code{shiny}] A framework for building live web applications in R. It comprises control widgets and graphic outputs, and uses a reactive model for determining which parts of the pages needs updating.
 	\item[\code{leaflet}] Integration with \emph{leaflet}, an open-source javascript library for interactive maps. Maps can be enhanced with custom graphic elements such as polygons, lines, and markers.
-	\item[\code{plotly}] A powerful, open-source plotting engine, with support for numerous types of charts, and fully interactive and customizable
+	\item[\code{plotly}] A powerful, open-source plotting engine, with support for numerous types of charts, and fully interactive and customizable.
 	\item[\code{googlesheets}] A wrapper for the \emph{Google Sheets} APIs. It can be used to perform common file managing operations, as well as for accessing and editing data in a worksheet.
 	\item[\code{dplyr}] This package provides a set of useful and functions for manipulating data, such as \code{select}, \code{filter}, and \code{arrange}, with a particular focus on performances. It also provides the pipe operator \code{\%>\%}, which can be used to concatenate operations on datasets of various nature.
 \end{description}
