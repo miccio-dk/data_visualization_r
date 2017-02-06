@@ -171,14 +171,14 @@ shinyServer(function(input, output, session) {
         addPolylines(
           data = sl_paths,
           stroke = TRUE,
-          weight = 3,
+          weight = 5,
           color = ~col_palette()(sl_paths$sldf_device_id),
           opacity = 0.7) %>%
         addCircleMarkers(
           data = markers, lat = ~lat, lng = ~lng, group = ~device_id,
-          radius = 6,
+          radius = 10,
           stroke = TRUE,
-          weight = 1,
+          weight = 2,
           color = "#fff",
           opacity = 0.9,
           fillColor = ~col_palette()(device_id),
@@ -212,7 +212,7 @@ shinyServer(function(input, output, session) {
       session, "date",
       start = min(allData()$date_time_posix),
       end = max(allData()$date_time_posix))
-    input$map_bounds <- NULL
+    #input$map_bounds <- NULL
   })
 
   # observer event for clear remote data button

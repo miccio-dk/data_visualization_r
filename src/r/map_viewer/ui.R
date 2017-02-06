@@ -19,7 +19,7 @@ shinyUI(fluidPage(
   theme = shinytheme("paper"),
   
   # title
-  titlePanel("Mobile Sensor Data Visulization in R"),
+  titlePanel("Mobile Sensor Data Visualization in R"),
 
   # split UI in main and side panels
   sidebarLayout(

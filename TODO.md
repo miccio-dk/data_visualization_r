@@ -9,19 +9,19 @@
   - [ ] Fix bugs
 - [x] RStudio
   - [x] Implement
-  - [x] Fix bugs
+  - [ ] Fix bugs
 - [x] Report
   - [x] Proofread
-- [ ] Poster (A0)
+- [x] Poster (A0)
   - [x] Layout
-  - [ ] Style
+  - [x] Style
   - [x] Objectives
   - [x] Intro
   - [x] Reqs
-  - [ ] Tools
-  - [ ] Implementation
-  - [ ] Testing
-  - [ ] Conclusion
+  - [x] Tools
+  - [x] Implementation
+  - [x] Testing
+  - [x] Conclusion
   - [x] Refs
   - [x] Contacts
 
